@@ -7,6 +7,7 @@
 		"no-tabs": "off",
 		"no-console": "off",
 		"prefer-template": "off",
+		"class-methods-use-this": "off",
 		"import/no-extraneous-dependencies": "off",
 		"indent": [
 			"error",
