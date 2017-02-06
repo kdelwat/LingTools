@@ -84,7 +84,7 @@ class OrderableListView extends React.Component {
 	// Given a list item and its index, render the item and its controls.
 	renderItem(listItem, index) {
 		return (
-			<div className={css(styles.item)}>
+			<div key={index} className={css(styles.item)}>
 				{listItem} {index}
 				<a onClick={() => this.promoteItem(index)}>Promote</a>
 				<a onClick={() => this.demoteItem(index)}>Demote</a>
