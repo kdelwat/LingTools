@@ -3,7 +3,10 @@
 	"rules": {
 		"react/jsx-filename-extension": "off",
 		"no-use-before-define": "off",
+		"react/prop-types": "off",
 		"no-tabs": "off",
+		"no-console": "off",
+		"prefer-template": "off",
 		"import/no-extraneous-dependencies": "off",
 		"indent": [
 			"error",
