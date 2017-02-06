@@ -20,6 +20,7 @@
 		"react/jsx-indent-props": [
 			"error",
 			"tab"
-		]
+		],
+		"jsx-a11y/no-static-element-interactions": "off"
 	}
 }
