@@ -44,7 +44,10 @@ class GrammarGen extends React.Component {
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<h2 className={css(styles.text)}>Gday, {this.state.firstName} {this.state.lastName}!</h2>
-					<OrderableListView />
+					<OrderableListView
+						initial={[1, 2]}
+						addFunction={() => Math.random() * 1000}
+					/>
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<Form

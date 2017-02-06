@@ -5,7 +5,7 @@ class OrderableListView extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			items: ['1', '2'],
+			items: props.initial ? props.initial : [],
 		};
 
 		this.addItem = this.addItem.bind(this);
@@ -13,8 +13,10 @@ class OrderableListView extends React.Component {
 
 	addItem() {
 		const { items } = this.state;
+		const newValue = this.props.addFunction();
+
 		this.setState({
-			items: [Math.random(), ...items],
+			items: [...items, newValue],
 		});
 	}
 
