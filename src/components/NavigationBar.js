@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 
 
 function NavigationBar(props) {
@@ -17,6 +17,7 @@ function NavigationBar(props) {
 
 	return (
 		<div className={css(styles.navigationBar)}>
+			<a onClick={() => browserHistory.goBack()}>Back</a>
 			{props.url}
 		</div>
 	);
