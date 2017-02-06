@@ -8,12 +8,14 @@ class OrderableListView extends React.Component {
 			items: props.initial ? props.initial : [],
 		};
 
-		this.renderListItem = this.renderListItem.bind(this);
+		this.renderItem = this.renderItem.bind(this);
 		this.addItem = this.addItem.bind(this);
 		this.promoteItem = this.promoteItem.bind(this);
 		this.demoteItem = this.demoteItem.bind(this);
 	}
 
+	// Call the add function specified in props and add the return value to the
+	// end of the list.
 	addItem() {
 		const { items } = this.state;
 		const newValue = this.props.addFunction();
@@ -23,7 +25,9 @@ class OrderableListView extends React.Component {
 		});
 	}
 
+	// Move the item specified by index up one position in the list
 	promoteItem(index) {
+		// If the item is already first, don't do anything
 		if (index === 0) {
 			return;
 		}
@@ -39,9 +43,11 @@ class OrderableListView extends React.Component {
 		});
 	}
 
+	// Move the item specified by index down one position in the list
 	demoteItem(index) {
 		const { items } = this.state;
 
+		// If the item is already the last item, don't do anything
 		if (index === items.length - 1) {
 			return;
 		}
@@ -55,7 +61,8 @@ class OrderableListView extends React.Component {
 		});
 	}
 
-	renderListItem(listItem, index) {
+	// Given a list item and its index, render the item and its controls.
+	renderItem(listItem, index) {
 		return (
 			<div className={css(styles.item)}>
 				{listItem} {index}
@@ -69,7 +76,7 @@ class OrderableListView extends React.Component {
 		return (
 			<div className={css(styles.outer)}>
 				<div className={css(styles.inner)}>
-					{this.state.items.map(this.renderListItem)}
+					{this.state.items.map(this.renderItem)}
 				</div>
 				<a className={css(styles.addItemButton)} onClick={this.addItem}>Add</a>
 			</div>
