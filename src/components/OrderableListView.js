@@ -61,6 +61,17 @@ class OrderableListView extends React.Component {
 		});
 	}
 
+	// Delete the item specified by index
+	deleteItem(index) {
+		const { items } = this.state;
+
+		items.splice(index, 1);
+
+		this.setState({
+			items,
+		});
+	}
+
 	// Given a list item and its index, render the item and its controls.
 	renderItem(listItem, index) {
 		return (
@@ -68,6 +79,7 @@ class OrderableListView extends React.Component {
 				{listItem} {index}
 				<a onClick={() => this.promoteItem(index)}>Promote</a>
 				<a onClick={() => this.demoteItem(index)}>Demote</a>
+				<a onClick={() => this.deleteItem(index)}>Delete</a>
 			</div>
 		);
 	}
