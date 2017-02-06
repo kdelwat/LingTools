@@ -1,6 +1,15 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
+/* OrderableListView is a component which creates a list of items. Each item
+can be promoted, demoted, or deleted from the list. There is an add button,
+which adds a new item based on an add function passed to the component as a
+prop.
+
+Props:
+	- initial (optional): an array of initial list values.
+	- addFunction (required): a function which takes no arguments and returns a new item.
+*/
 class OrderableListView extends React.Component {
 	constructor(props) {
 		super(props);
