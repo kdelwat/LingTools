@@ -3,6 +3,7 @@ import { StyleSheet, css } from 'aphrodite';
 import Form from 'react-jsonschema-form';
 
 import Block, { Container } from './components/Layout';
+import OrderableListView from './components/OrderableListView';
 
 const nameFormSchema = {
 	title: 'Personal Information',
@@ -43,6 +44,7 @@ class GrammarGen extends React.Component {
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<h2 className={css(styles.text)}>Gday, {this.state.firstName} {this.state.lastName}!</h2>
+					<OrderableListView />
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<Form
