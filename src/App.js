@@ -1,9 +1,9 @@
 import React from 'react';
-import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router';
-import { StyleSheet, css } from 'aphrodite';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 import Home from './Home';
 import GrammarGen from './GrammarGen';
+import NavigationBar from './components/NavigationBar';
 
 const App = () => (
 	// Adding a random key to the Router prevents the hot module reloader from
@@ -19,24 +19,11 @@ const App = () => (
 function NavigationContainer(props) {
 	return (
 		<div>
-			<div className={css(styles.navigationBar)}>
-				<ul>
-					<li><Link to="/">Home</Link></li>
-					<li><Link to="/grammargen">GrammarGen</Link></li>
-				</ul>
-			</div>
+			<NavigationBar url={props.location.pathname} />
 
 			{props.children}
 		</div>
 	);
 }
-
-const styles = StyleSheet.create({
-	navigationBar: {
-		color: 'red',
-		paddingLeft: 40,
-		paddingRight: 40,
-	},
-});
 
 export default App;
