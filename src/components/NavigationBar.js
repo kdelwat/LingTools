@@ -8,8 +8,7 @@ function NavigationBar(props) {
 		return (
 			<div className={css(styles.navigationBar)}>
 				<ul>
-					<li><Link to="/">Home</Link></li>
-					<li><Link to="/grammargen">GrammarGen</Link></li>
+					{props.links.map(renderLink)}
 				</ul>
 				{props.url}
 			</div>
@@ -20,6 +19,13 @@ function NavigationBar(props) {
 		<div className={css(styles.navigationBar)}>
 			{props.url}
 		</div>
+	);
+}
+
+// Render a link item from a link object
+function renderLink(link) {
+	return (
+		<li key={link.url}><Link to={link.url}>{link.text}</Link></li>
 	);
 }
 

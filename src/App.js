@@ -19,7 +19,13 @@ const App = () => (
 function NavigationContainer(props) {
 	return (
 		<div>
-			<NavigationBar url={props.location.pathname} />
+			<NavigationBar
+				url={props.location.pathname}
+				links={[
+					{ url: '/', text: 'Home' },
+					{ url: '/grammargen', text: 'GrammarGen' },
+				]}
+			/>
 
 			{props.children}
 		</div>
