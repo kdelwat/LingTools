@@ -1,25 +1,39 @@
 import React from 'react';
+import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router';
 import { StyleSheet, css } from 'aphrodite';
 
-import Block, { Container } from './components/Layout';
+import Home from './Home';
+import GrammarGen from './GrammarGen';
 
 const App = () => (
-	<Container>
-		<Block width={'100%'}>
-			<h1>Welcome to the site!</h1>
-		</Block>
-		<Block width={'50%'} mobileWidth={'100%'}>
-			<h2 className={css(styles.text)}>Hello, world!</h2>
-		</Block>
-		<Block width={'50%'} mobileWidth={'100%'}>
-			<h2 className={css(styles.text)}>How you doin?</h2>
-		</Block>
-	</Container >
+	<Router history={browserHistory}>
+		<Route path="/" component={NavigationContainer}>
+			<IndexRoute component={Home} />
+			<Route path="/grammargen" component={GrammarGen} />
+		</Route>
+	</Router>
 );
 
+function NavigationContainer(props) {
+	return (
+		<div>
+			<div className={css(styles.navigationBar)}>
+				<ul>
+					<li><Link to="/">Home</Link></li>
+					<li><Link to="/grammargen">GrammarGen</Link></li>
+				</ul>
+			</div>
+
+			{props.children}
+		</div>
+	);
+}
+
 const styles = StyleSheet.create({
-	text: {
+	navigationBar: {
 		color: 'red',
+		paddingLeft: 40,
+		paddingRight: 40,
 	},
 });
 
