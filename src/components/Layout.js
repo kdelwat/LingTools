@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
+import { defaultColours, colours } from '../CommonStyles';
+
 // The grid's gutter size, in px.
 const gutter = 40;
 const containerGutter = 40;
@@ -40,7 +42,11 @@ const styles = StyleSheet.create({
 		boxSizing: 'border-box',
 	},
 	innerBlock: {
-		border: '1px solid blue',
+		border: '1px solid rgba(0, 0, 0, 0.2)',
+		boxShadow: '0px 1px 2px 0px rgba(0, 0, 0, 0.15)',
+		borderRadius: 10,
+		padding: 20,
+		backgroundColor: colours.white,
 	},
 	expandedBlock: {
 		margin: -gutter,
@@ -49,6 +55,7 @@ const styles = StyleSheet.create({
 		padding: containerGutter / 2,
 		display: 'flex',
 		flexWrap: 'wrap',
+		backgroundColor: defaultColours.background,
 	},
 });
 

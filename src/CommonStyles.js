@@ -1,5 +1,6 @@
 export const colours = {
 	white: '#ffffff',
+	lightGrey: '#fcfcfc',
 	aqua: '#84dcc6',
 	mint: '#a5ffd6',
 	salmon: '#ffa69e',
@@ -7,7 +8,7 @@ export const colours = {
 };
 
 export const defaultColours = {
-	background: colours.white,
+	background: colours.lightGrey,
 	primary: colours.salmon,
 };
 
