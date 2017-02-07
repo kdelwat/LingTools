@@ -3,9 +3,8 @@ import { StyleSheet, css } from 'aphrodite';
 import { Link, browserHistory } from 'react-router';
 
 import TiBackspace from 'react-icons/lib/ti/backspace';
-// import TiSocialGithubCircular from 'react-icons/lib/ti/social-github-circular';
-// import TiSocialGithub from 'react-icons/lib/ti/social-github';
-import { defaultColours, colours } from '../CommonStyles';
+
+import { defaultColours, colours, mainFont } from '../CommonStyles';
 
 /* NavigationBar is a component which creates a navigation bar. It takes the
 current URL as a prop. If the current URL is the index, a full navigation bar
@@ -65,6 +64,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		height: 60,
+
+		fontFamily: mainFont,
 	},
 	icon: {
 		height: 35,

@@ -10,3 +10,9 @@ export const defaultColours = {
 	background: colours.white,
 	primary: colours.salmon,
 };
+
+export const mainFont = {
+	fontFamily: 'sans-serif',
+	fontStyle: 'normal',
+	fontWeight: 'normal',
+};
