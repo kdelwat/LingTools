@@ -2,6 +2,10 @@ import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { Link, browserHistory } from 'react-router';
 
+import TiBackspace from 'react-icons/lib/ti/backspace';
+
+import { defaultColours, colours, mainFont } from '../CommonStyles';
+
 /* NavigationBar is a component which creates a navigation bar. It takes the
 current URL as a prop. If the current URL is the index, a full navigation bar
 is displayed, with links from a prop shown. Otherwise, the name of the current
@@ -21,7 +25,6 @@ function NavigationBar(props) {
 				<ul>
 					{props.links.map(renderLink)}
 				</ul>
-				{props.url}
 			</div>
 		);
 	}
@@ -29,8 +32,16 @@ function NavigationBar(props) {
 	// Otherwise, render the normal navigation bar with a back link
 	return (
 		<div className={css(styles.navigationBar)}>
-			<a onClick={() => browserHistory.goBack()}>Back</a>
-			{props.url}
+
+			<a onClick={() => browserHistory.goBack()}>
+				<TiBackspace className={css(styles.icon)} />
+			</a>
+
+			<h1 className={css(styles.title)}>
+				{props.url.slice(1).toUpperCase()}
+			</h1>
+
+			<div className={css(styles.blank)} />
 		</div>
 	);
 }
@@ -44,9 +55,34 @@ function renderLink(link) {
 
 const styles = StyleSheet.create({
 	navigationBar: {
-		color: 'red',
+		backgroundColor: defaultColours.primary,
+		color: colours.white,
 		paddingLeft: 40,
 		paddingRight: 40,
+
+		display: 'flex',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		height: 60,
+
+		fontFamily: mainFont,
+	},
+	icon: {
+		height: 35,
+		width: 35,
+		color: colours.white,
+		transition: '0.25s',
+		':hover': {
+			height: 40,
+			width: 40,
+		},
+	},
+	blank: {
+		height: 35,
+		width: 35,
+	},
+	title: {
+		fontWeight: 'normal',
 	},
 });
 
