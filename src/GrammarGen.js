@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, css } from 'aphrodite';
 import Form from 'react-jsonschema-form';
 
 import Block, { Container } from './components/Layout';
@@ -43,7 +42,7 @@ class GrammarGen extends React.Component {
 					<h1>Welcome to GrammarGen!</h1>
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
-					<h2 className={css(styles.text)}>Gday, {this.state.firstName} {this.state.lastName}!</h2>
+					<h2>Gday, {this.state.firstName} {this.state.lastName}!</h2>
 					<OrderableListView
 						initial={[1, 2]}
 						addFunction={() => Math.random() * 1000}
@@ -59,11 +58,5 @@ class GrammarGen extends React.Component {
 		);
 	}
 }
-
-const styles = StyleSheet.create({
-	text: {
-		color: 'red',
-	},
-});
 
 export default GrammarGen;

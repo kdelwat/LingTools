@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, css } from 'aphrodite';
 
 /* OrderableListView is a component which creates a list of items. Each item
 can be promoted, demoted, or deleted from the list. There is an add button,
@@ -84,7 +83,7 @@ class OrderableListView extends React.Component {
 	// Given a list item and its index, render the item and its controls.
 	renderItem(listItem, index) {
 		return (
-			<div key={index} className={css(styles.item)}>
+			<div key={index}>
 				{listItem} {index}
 				<a onClick={() => this.promoteItem(index)}>Promote</a>
 				<a onClick={() => this.demoteItem(index)}>Demote</a>
@@ -95,26 +94,14 @@ class OrderableListView extends React.Component {
 
 	render() {
 		return (
-			<div className={css(styles.outer)}>
-				<div className={css(styles.inner)}>
+			<div>
+				<div>
 					{this.state.items.map(this.renderItem)}
 				</div>
-				<a className={css(styles.addItemButton)} onClick={this.addItem}>Add</a>
+				<a onClick={this.addItem}>Add</a>
 			</div>
 		);
 	}
 }
-
-const styles = StyleSheet.create({
-	outer: {
-		border: '1px solid orange',
-	},
-	item: {
-		color: 'purple',
-	},
-	addItemButton: {
-		color: 'yellow',
-	},
-});
 
 export default OrderableListView;
