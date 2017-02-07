@@ -1,6 +1,8 @@
 import React from 'react';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
+import './styles/main.scss';
+
 import Home from './Home';
 import GrammarGen from './GrammarGen';
 import NavigationBar from './components/NavigationBar';
