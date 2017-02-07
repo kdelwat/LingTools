@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { Link, browserHistory } from 'react-router';
 
+import defaultColours from '../CommonStyles';
+
 /* NavigationBar is a component which creates a navigation bar. It takes the
 current URL as a prop. If the current URL is the index, a full navigation bar
 is displayed, with links from a prop shown. Otherwise, the name of the current
@@ -44,7 +46,7 @@ function renderLink(link) {
 
 const styles = StyleSheet.create({
 	navigationBar: {
-		color: 'red',
+		color: defaultColours.primary,
 		paddingLeft: 40,
 		paddingRight: 40,
 	},
