@@ -8,3 +8,19 @@
 .is-home {
 	font-size: 18px;
 }
+
+// Grid settings
+$gutter: 40px;
+
+.block {
+	padding: $gutter / 2;
+	margin: 0 !important;
+	box-sizing: border-box;
+}
+
+.block-container {
+	padding: $gutter / 2;
+
+	display: flex;
+	flex-wrap: wrap;
+}

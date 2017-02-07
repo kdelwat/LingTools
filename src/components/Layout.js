@@ -2,14 +2,18 @@ import React from 'react';
 
 function Container(props) {
 	return (
-		<div>{props.children}</div>
+		<div className="block-container">{props.children}</div>
 	);
 }
 
 function Block(props) {
+	const style = {
+		width: props.width,
+	};
+
 	return (
-		<div>
-			<div>{props.children}</div>
+		<div className="block" style={style}>
+			<div className="box">{props.children}</div>
 		</div>
 	);
 }
