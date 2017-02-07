@@ -24,7 +24,6 @@ function NavigationContainer(props) {
 			<NavigationBar
 				url={props.location.pathname}
 				links={[
-					{ url: '/', text: 'Home' },
 					{ url: '/grammargen', text: 'GrammarGen' },
 				]}
 			/>

@@ -1,7 +1,5 @@
 import React from 'react';
-import { Link, browserHistory } from 'react-router';
-
-import TiBackspace from 'react-icons/lib/ti/backspace';
+import { Link } from 'react-router';
 
 /* NavigationBar is a component which creates a navigation bar. It takes the
 current URL as a prop. If the current URL is the index, a full navigation bar
@@ -15,45 +13,55 @@ Props:
 	display text.
 */
 function NavigationBar(props) {
-	// Render the index navigation if on the root url
-	if (props.url === '/') {
-		return (
-			<nav className="nav has-shadow">
-				<div className="nav-center">
-					{props.links.map(renderLink)}
+	const currentUrl = props.url.slice(1);
+
+	let currentTitle = 'Home';
+
+	props.links.forEach((link) => {
+		if (link.url.slice(1) === currentUrl) {
+			currentTitle = link.text;
+		}
+	});
+
+	return (
+		<div>
+			<nav className="nav">
+				<div className="nav-left">
+					<a key={'/'} className="nav-item is-home">
+						<Link to={'/'}>SMOOTHIE</Link>
+					</a>
+				</div>
+
+				<div className="nav-right">
+					{props.links.map(link => renderLink(link, currentUrl))}
 				</div>
 			</nav>
-		);
-	}
 
-	// Otherwise, render the normal navigation bar with a back link
-	return (
-		<section className="hero is-primary is-small">
-			<div className="hero-head">
-				<nav className="nav">
-					<div className="nav-left">
-						<a className="nav-item" onClick={() => browserHistory.goBack()}>
-							<TiBackspace className="icon" />
-						</a>
+			<section className="hero is-primary is-small">
+				<div className="hero-body">
+					<div className="container has-text-centered">
+						<h1 className="title">
+							{currentTitle}
+						</h1>
 					</div>
-				</nav>
-			</div>
-
-			<div className="hero-body">
-				<div className="container has-text-centered">
-					<h1 className="title">
-						{props.url.slice(1).toUpperCase()}
-					</h1>
 				</div>
-			</div>
-		</section>
+			</section>
+		</div>
 	);
 }
 
 // Render a link item from a link object
-function renderLink(link) {
+function renderLink(link, currentUrl) {
+	let classes = 'nav-item is-tab';
+
+	if (link.url.slice(1) === currentUrl) {
+		classes += ' is-active';
+	}
+
 	return (
-		<a key={link.url} className="nav-item"><Link to={link.url}>{link.text}</Link></a>
+		<a key={link.url} className={classes}>
+			<Link to={link.url}>{link.text}</Link>
+		</a>
 	);
 }
 
