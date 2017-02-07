@@ -18,35 +18,42 @@ function NavigationBar(props) {
 	// Render the index navigation if on the root url
 	if (props.url === '/') {
 		return (
-			<div>
-				<ul>
+			<nav className="nav has-shadow">
+				<div className="nav-center">
 					{props.links.map(renderLink)}
-				</ul>
-			</div>
+				</div>
+			</nav>
 		);
 	}
 
 	// Otherwise, render the normal navigation bar with a back link
 	return (
-		<div>
+		<section className="hero is-primary is-small">
+			<div className="hero-head">
+				<nav className="nav">
+					<div className="nav-left">
+						<a className="nav-item" onClick={() => browserHistory.goBack()}>
+							<TiBackspace className="icon" />
+						</a>
+					</div>
+				</nav>
+			</div>
 
-			<a onClick={() => browserHistory.goBack()}>
-				<TiBackspace />
-			</a>
-
-			<h1>
-				{props.url.slice(1).toUpperCase()}
-			</h1>
-
-			<div />
-		</div>
+			<div className="hero-body">
+				<div className="container has-text-centered">
+					<h1 className="title">
+						{props.url.slice(1).toUpperCase()}
+					</h1>
+				</div>
+			</div>
+		</section>
 	);
 }
 
 // Render a link item from a link object
 function renderLink(link) {
 	return (
-		<li key={link.url}><Link to={link.url}>{link.text}</Link></li>
+		<a key={link.url} className="nav-item"><Link to={link.url}>{link.text}</Link></a>
 	);
 }
 
