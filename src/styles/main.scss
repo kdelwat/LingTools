@@ -1,0 +1,46 @@
+@import "~bulma";
+
+.nav svg {
+	width: 35px;
+	height: 35px;
+}
+
+.is-home {
+	font-size: 18px;
+}
+
+// OrderableListView styles
+.orderable-list-header {
+	display: flex;
+	align-items: center;
+	padding-bottom: 0.5em;
+}
+
+.orderable-list-title {
+	flex: 1;
+	font-size: $size-5;
+}
+
+.orderable-list-body .icon {
+	color: $text;
+}
+
+.orderable-list-left {
+	flex: 1;
+}
+
+// Grid settings
+$gutter: 40px;
+
+.block {
+	padding: $gutter / 2;
+	margin: 0 !important;
+	box-sizing: border-box;
+}
+
+.block-container {
+	padding: $gutter / 2;
+
+	display: flex;
+	flex-wrap: wrap;
+}

@@ -1,10 +1,5 @@
 import React from 'react';
-import { StyleSheet, css } from 'aphrodite';
-import { Link, browserHistory } from 'react-router';
-
-import TiBackspace from 'react-icons/lib/ti/backspace';
-
-import { defaultColours, colours, mainFont } from '../CommonStyles';
+import { Link } from 'react-router';
 
 /* NavigationBar is a component which creates a navigation bar. It takes the
 current URL as a prop. If the current URL is the index, a full navigation bar
@@ -18,72 +13,56 @@ Props:
 	display text.
 */
 function NavigationBar(props) {
-	// Render the index navigation if on the root url
-	if (props.url === '/') {
-		return (
-			<div className={css(styles.navigationBar)}>
-				<ul>
-					{props.links.map(renderLink)}
-				</ul>
-			</div>
-		);
-	}
+	const currentUrl = props.url.slice(1);
 
-	// Otherwise, render the normal navigation bar with a back link
+	let currentTitle = 'Home';
+
+	props.links.forEach((link) => {
+		if (link.url.slice(1) === currentUrl) {
+			currentTitle = link.text;
+		}
+	});
+
 	return (
-		<div className={css(styles.navigationBar)}>
+		<div>
+			<nav className="nav">
+				<div className="nav-left">
+					<a key={'/'} className="nav-item is-home">
+						<Link to={'/'}>SMOOTHIE</Link>
+					</a>
+				</div>
 
-			<a onClick={() => browserHistory.goBack()}>
-				<TiBackspace className={css(styles.icon)} />
-			</a>
+				<div className="nav-right">
+					{props.links.map(link => renderLink(link, currentUrl))}
+				</div>
+			</nav>
 
-			<h1 className={css(styles.title)}>
-				{props.url.slice(1).toUpperCase()}
-			</h1>
-
-			<div className={css(styles.blank)} />
+			<section className="hero is-primary is-small">
+				<div className="hero-body">
+					<div className="container has-text-centered">
+						<h1 className="title">
+							{currentTitle}
+						</h1>
+					</div>
+				</div>
+			</section>
 		</div>
 	);
 }
 
 // Render a link item from a link object
-function renderLink(link) {
+function renderLink(link, currentUrl) {
+	let classes = 'nav-item is-tab';
+
+	if (link.url.slice(1) === currentUrl) {
+		classes += ' is-active';
+	}
+
 	return (
-		<li key={link.url}><Link to={link.url}>{link.text}</Link></li>
+		<a key={link.url} className={classes}>
+			<Link to={link.url}>{link.text}</Link>
+		</a>
 	);
 }
-
-const styles = StyleSheet.create({
-	navigationBar: {
-		backgroundColor: defaultColours.primary,
-		color: colours.white,
-		paddingLeft: 40,
-		paddingRight: 40,
-
-		display: 'flex',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		height: 60,
-
-		fontFamily: mainFont,
-	},
-	icon: {
-		height: 35,
-		width: 35,
-		color: colours.white,
-		transition: '0.25s',
-		':hover': {
-			height: 40,
-			width: 40,
-		},
-	},
-	blank: {
-		height: 35,
-		width: 35,
-	},
-	title: {
-		fontWeight: 'normal',
-	},
-});
 
 export default NavigationBar;

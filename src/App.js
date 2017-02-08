@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
-import './GlobalStyles';
+import './styles/main.scss';
 
 import Home from './Home';
 import GrammarGen from './GrammarGen';
@@ -24,7 +24,6 @@ function NavigationContainer(props) {
 			<NavigationBar
 				url={props.location.pathname}
 				links={[
-					{ url: '/', text: 'Home' },
 					{ url: '/grammargen', text: 'GrammarGen' },
 				]}
 			/>

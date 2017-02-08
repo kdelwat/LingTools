@@ -1,5 +1,9 @@
 import React from 'react';
-import { StyleSheet, css } from 'aphrodite';
+
+import TiArrowSortedUp from 'react-icons/lib/ti/arrow-sorted-up';
+import TiArrowSortedDown from 'react-icons/lib/ti/arrow-sorted-down';
+import TiDelete from 'react-icons/lib/ti/delete';
+import TiCloudStorage from 'react-icons/lib/ti/cloud-storage';
 
 /* OrderableListView is a component which creates a list of items. Each item
 can be promoted, demoted, or deleted from the list. There is an add button,
@@ -9,6 +13,7 @@ prop.
 Props:
 	- initial (optional): an array of initial list values.
 	- addFunction (required): a function which takes no arguments and returns a new item.
+	- title (required): the title of the list.
 */
 class OrderableListView extends React.Component {
 	constructor(props) {
@@ -84,37 +89,52 @@ class OrderableListView extends React.Component {
 	// Given a list item and its index, render the item and its controls.
 	renderItem(listItem, index) {
 		return (
-			<div key={index} className={css(styles.item)}>
-				{listItem} {index}
-				<a onClick={() => this.promoteItem(index)}>Promote</a>
-				<a onClick={() => this.demoteItem(index)}>Demote</a>
-				<a onClick={() => this.deleteItem(index)}>Delete</a>
+			<div className="panel-block" key={index}>
+				<span className="orderable-list-left">
+					{listItem}
+				</span>
+				<span>
+					<a onClick={() => this.promoteItem(index)}>
+						<span className="icon">
+							<TiArrowSortedUp />
+						</span>
+					</a>
+					<a onClick={() => this.demoteItem(index)}>
+						<span className="icon">
+							<TiArrowSortedDown />
+						</span>
+					</a>
+					<a onClick={() => this.deleteItem(index)}>
+						<span className="icon">
+							<TiDelete />
+						</span>
+					</a>
+				</span>
 			</div>
 		);
 	}
 
 	render() {
 		return (
-			<div className={css(styles.outer)}>
-				<div className={css(styles.inner)}>
+			<div className="orderable-list">
+				<div className="orderable-list-header">
+					<h3 className="orderable-list-title">
+						{this.props.title}
+					</h3>
+
+					<a className="button is-primary" onClick={this.addItem}>
+						<span className="icon">
+							<TiCloudStorage />
+						</span>
+					</a>
+				</div>
+
+				<div className="orderable-list-body">
 					{this.state.items.map(this.renderItem)}
 				</div>
-				<a className={css(styles.addItemButton)} onClick={this.addItem}>Add</a>
 			</div>
 		);
 	}
 }
-
-const styles = StyleSheet.create({
-	outer: {
-		border: '1px solid orange',
-	},
-	item: {
-		color: 'purple',
-	},
-	addItemButton: {
-		color: 'yellow',
-	},
-});
 
 export default OrderableListView;
