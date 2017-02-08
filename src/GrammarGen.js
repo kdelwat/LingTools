@@ -1,8 +1,8 @@
 import React from 'react';
-import Form from 'react-jsonschema-form';
 
 import Block, { Container } from './components/Layout';
 import OrderableListView from './components/OrderableListView';
+import StyledForm from './components/StyledForm';
 
 const nameFormSchema = {
 	title: 'Personal Information',
@@ -17,35 +17,6 @@ const nameFormSchema = {
 			type: 'string',
 		},
 	},
-};
-
-function CustomFieldTemplate(props) {
-	if (props.id === 'root') {
-		return (
-			<div>
-				{props.children}
-			</div>
-		);
-	}
-
-	return (
-		<div className="form-row">
-			<label htmlFor={props.id} className="label">{props.label}</label>
-			<p className="control">
-				{props.children}
-			</p>
-		</div>
-	);
-}
-
-function FormTitle({ title }) {
-	return (
-		<label htmlFor="root" className="form-title">{title}</label>
-	);
-}
-
-const fields = {
-	TitleField: FormTitle,
 };
 
 
@@ -80,11 +51,9 @@ class GrammarGen extends React.Component {
 					/>
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
-					<Form
+					<StyledForm
 						schema={nameFormSchema}
 						onSubmit={this.settingsFormSubmitted}
-						fields={fields}
-						FieldTemplate={CustomFieldTemplate}
 					/>
 				</Block>
 			</Container >
