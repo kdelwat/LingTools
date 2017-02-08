@@ -11,6 +11,7 @@ const nameFormSchema = {
 		firstName: {
 			title: 'First name',
 			type: 'string',
+			minLength: 8,
 		},
 		lastName: {
 			title: 'Last name',

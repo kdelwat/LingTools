@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from 'react-jsonschema-form';
 import FaQuestionCircle from 'react-icons/lib/fa/question-circle';
+import TiWarning from 'react-icons/lib/ti/warning';
 
 // Render a help tooltip when hovering over an icon.
 function HelpTooltip(props) {
@@ -12,9 +13,15 @@ function HelpTooltip(props) {
 	);
 }
 
+// Render an error message from a given string, to go under the field.
+function renderError(error) {
+	return (
+		<span className="help is-danger"><TiWarning /> {error}</span>
+	);
+}
+
 // A template which overrides the default of react-jsonschema-form.
 function CustomFieldTemplate(props) {
-	console.log(props.help);
 	// If rendering the root element, just return its children unchanged.
 	if (props.id === 'root') {
 		return (
@@ -38,6 +45,7 @@ function CustomFieldTemplate(props) {
 			</label>
 			<p className="control">
 				{props.children}
+				{props.rawErrors ? props.rawErrors.map(renderError) : null}
 			</p>
 		</div>
 	);
@@ -61,6 +69,7 @@ function StyledForm(props) {
 		<Form
 			{...props}
 			fields={fields}
+			showErrorList={false}
 			FieldTemplate={CustomFieldTemplate}
 		/>
 	);
