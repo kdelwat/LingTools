@@ -45,6 +45,7 @@ class GrammarGen extends React.Component {
 					<h2>Gday, {this.state.firstName} {this.state.lastName}!</h2>
 					<OrderableListView
 						initial={[1, 2]}
+						title="Files"
 						addFunction={() => Math.random() * 1000}
 					/>
 				</Block>
