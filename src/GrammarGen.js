@@ -19,6 +19,12 @@ const nameFormSchema = {
 	},
 };
 
+const nameFormUISchema = {
+	firstName: {
+		'ui:help': 'A help message',
+	},
+};
+
 
 class GrammarGen extends React.Component {
 	constructor(props) {
@@ -53,6 +59,7 @@ class GrammarGen extends React.Component {
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<StyledForm
 						schema={nameFormSchema}
+						uiSchema={nameFormUISchema}
 						onSubmit={this.settingsFormSubmitted}
 					/>
 				</Block>
