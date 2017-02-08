@@ -19,6 +19,36 @@ const nameFormSchema = {
 	},
 };
 
+function CustomFieldTemplate(props) {
+	if (props.id === 'root') {
+		return (
+			<div>
+				{props.children}
+			</div>
+		);
+	}
+
+	return (
+		<div className="form-row">
+			<label htmlFor={props.id} className="label">{props.label}</label>
+			<p className="control">
+				{props.children}
+			</p>
+		</div>
+	);
+}
+
+function FormTitle({ title }) {
+	return (
+		<label htmlFor="root" className="form-title">{title}</label>
+	);
+}
+
+const fields = {
+	TitleField: FormTitle,
+};
+
+
 class GrammarGen extends React.Component {
 	constructor(props) {
 		super(props);
@@ -53,6 +83,8 @@ class GrammarGen extends React.Component {
 					<Form
 						schema={nameFormSchema}
 						onSubmit={this.settingsFormSubmitted}
+						fields={fields}
+						FieldTemplate={CustomFieldTemplate}
 					/>
 				</Block>
 			</Container >

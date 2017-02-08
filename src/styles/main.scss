@@ -44,3 +44,32 @@ $gutter: 40px;
 	display: flex;
 	flex-wrap: wrap;
 }
+
+// Forms
+fieldset {
+	border: none;
+}
+
+input {
+	@extend .input;
+}
+
+.btn {
+	@extend .button;
+}
+
+.btn-info {
+	@extend .is-info;
+}
+
+.form-row {
+	margin-bottom: 1em;
+}
+
+.form-title {
+	font-size: $size-5;
+}
+
+.label:first-child {
+	margin-top: 1em;
+}
