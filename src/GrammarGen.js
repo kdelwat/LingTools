@@ -1,16 +1,18 @@
 import React from 'react';
-import Form from 'react-jsonschema-form';
 
 import Block, { Container } from './components/Layout';
 import OrderableListView from './components/OrderableListView';
+import StyledForm from './components/StyledForm';
 
 const nameFormSchema = {
 	title: 'Personal Information',
 	type: 'object',
+	required: ['firstName'],
 	properties: {
 		firstName: {
 			title: 'First name',
 			type: 'string',
+			minLength: 8,
 		},
 		lastName: {
 			title: 'Last name',
@@ -18,6 +20,13 @@ const nameFormSchema = {
 		},
 	},
 };
+
+const nameFormUISchema = {
+	firstName: {
+		'ui:help': 'A help message',
+	},
+};
+
 
 class GrammarGen extends React.Component {
 	constructor(props) {
@@ -50,8 +59,9 @@ class GrammarGen extends React.Component {
 					/>
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
-					<Form
+					<StyledForm
 						schema={nameFormSchema}
+						uiSchema={nameFormUISchema}
 						onSubmit={this.settingsFormSubmitted}
 					/>
 				</Block>
