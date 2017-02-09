@@ -35,7 +35,8 @@ class GrammarGen extends React.Component {
 		this.state = {
 			firstName: 'Paul',
 			lastName: 'Hogan',
-			files: [],
+			files: [{ name: 'test.md', contents: 'stuff' },
+			{ name: 'test2.md', contents: 'stuff' }],
 		};
 
 		this.settingsFormSubmitted = this.settingsFormSubmitted.bind(this);
@@ -55,7 +56,7 @@ class GrammarGen extends React.Component {
 			<Container>
 				<Block width={'100%'}>
 					<h1>Welcome to GrammarGen!</h1>
-					{this.state.files}
+					{JSON.stringify(this.state.files)}
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<h2>Gday, {this.state.firstName} {this.state.lastName}!</h2>
@@ -64,6 +65,7 @@ class GrammarGen extends React.Component {
 						onUpdate={this.updateFiles}
 						title="Files"
 						removable
+						itemTransformer={item => item.name}
 						addFunction={() => Math.random() * 1000}
 					/>
 				</Block>

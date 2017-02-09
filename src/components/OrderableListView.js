@@ -126,10 +126,16 @@ class OrderableListView extends React.Component {
 
 	// Given a list item and its index, render the item and its controls.
 	renderItem(listItem, index) {
+		let itemString = null;
+		if (this.props.itemTransformer) {
+			itemString = this.props.itemTransformer(listItem);
+		} else {
+			itemString = listItem;
+		}
 		return (
 			<div className="panel-block" key={index}>
 				<span className="orderable-list-left">
-					{listItem}
+					{itemString}
 				</span>
 				<span>
 					<a onClick={() => this.promoteItem(index)}>
