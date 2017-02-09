@@ -22,11 +22,18 @@ class OrderableListView extends React.Component {
 			items: props.initial ? props.initial : [],
 		};
 
+		this.update = this.update.bind(this);
 		this.renderItem = this.renderItem.bind(this);
 		this.renderAddButton = this.renderAddButton.bind(this);
 		this.addItem = this.addItem.bind(this);
 		this.promoteItem = this.promoteItem.bind(this);
 		this.demoteItem = this.demoteItem.bind(this);
+	}
+
+	// Update the parent component with the new list.
+	update() {
+		console.log(this.state.items);
+		this.props.onUpdate(this.state.items);
 	}
 
 	// Call the add function specified in props and add the return value to the
@@ -37,7 +44,7 @@ class OrderableListView extends React.Component {
 
 		this.setState({
 			items: [...items, newValue],
-		});
+		}, this.update);
 	}
 
 	// Move the item specified by index up one position in the list
@@ -55,7 +62,7 @@ class OrderableListView extends React.Component {
 
 		this.setState({
 			items,
-		});
+		}, this.update);
 	}
 
 	// Move the item specified by index down one position in the list
@@ -73,7 +80,7 @@ class OrderableListView extends React.Component {
 
 		this.setState({
 			items,
-		});
+		}, this.update);
 	}
 
 	// Delete the item specified by index
@@ -84,7 +91,7 @@ class OrderableListView extends React.Component {
 
 		this.setState({
 			items,
-		});
+		}, this.update);
 	}
 
 	// If there is an addFunction, return an add button. Otherwise return null.
