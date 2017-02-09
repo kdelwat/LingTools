@@ -90,6 +90,22 @@ class GrammarGen extends React.Component {
 						schema={filesSchema}
 						onSubmit={this.filesFormSubmitted}
 					/>
+				</Block>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<StyledForm
+						schema={nameFormSchema}
+						uiSchema={nameFormUISchema}
+						onSubmit={this.settingsFormSubmitted}
+					/>
+				</Block>
+			</div>
+		);
+	}
+
+	stepTwo() {
+		return (
+			<div className="inner-step">
+				<Block width={'50%'} mobileWidth={'100%'}>
 					<OrderableListView
 						items={this.state.files}
 						onUpdate={this.updateFiles}
@@ -99,12 +115,9 @@ class GrammarGen extends React.Component {
 						addFunction={() => Math.random() * 1000}
 					/>
 				</Block>
+
 				<Block width={'50%'} mobileWidth={'100%'}>
-					<StyledForm
-						schema={nameFormSchema}
-						uiSchema={nameFormUISchema}
-						onSubmit={this.settingsFormSubmitted}
-					/>
+					<h1>How are you doing today?</h1>
 				</Block>
 			</div>
 		);
@@ -118,7 +131,7 @@ class GrammarGen extends React.Component {
 					<h1>Welcome to GrammarGen!</h1>
 					{JSON.stringify(this.state.files)}
 				</Block>
-				<Steps steps={[this.stepOne()]} />
+				<Steps steps={[this.stepOne(), this.stepTwo()]} />
 			</Container >
 		);
 	}
