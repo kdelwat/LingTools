@@ -23,6 +23,7 @@ class OrderableListView extends React.Component {
 		};
 
 		this.renderItem = this.renderItem.bind(this);
+		this.renderAddButton = this.renderAddButton.bind(this);
 		this.addItem = this.addItem.bind(this);
 		this.promoteItem = this.promoteItem.bind(this);
 		this.demoteItem = this.demoteItem.bind(this);
@@ -86,6 +87,21 @@ class OrderableListView extends React.Component {
 		});
 	}
 
+	// If there is an addFunction, return an add button. Otherwise return null.
+	renderAddButton() {
+		if (this.props.addFunction) {
+			return (
+				<a className="button is-primary" onClick={this.addItem}>
+					<span className="icon">
+						<TiCloudStorage />
+					</span>
+				</a>
+			);
+		}
+
+		return null;
+	}
+
 	// If the removable prop is true, return a delete button. Otherwise return null.
 	renderDeleteButton(index) {
 		if (this.props.removable) {
@@ -133,11 +149,7 @@ class OrderableListView extends React.Component {
 						{this.props.title}
 					</h3>
 
-					<a className="button is-primary" onClick={this.addItem}>
-						<span className="icon">
-							<TiCloudStorage />
-						</span>
-					</a>
+					{this.renderAddButton()}
 				</div>
 
 				<div className="orderable-list-body">

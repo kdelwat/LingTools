@@ -56,7 +56,6 @@ class GrammarGen extends React.Component {
 						initial={[1, 2]}
 						title="Files"
 						removable
-						addFunction={() => Math.random() * 1000}
 					/>
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
