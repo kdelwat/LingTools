@@ -40,7 +40,8 @@ function CustomFieldTemplate(props) {
 	// Otherwise, correctly format the label and children with Bulma classes.
 	return (
 		<div className="form-row">
-			<label htmlFor={props.id} className="label">{props.label}
+			<label htmlFor={props.id} className="label">
+				{props.label}{props.required ? '*' : null}
 				{helpMessage}
 			</label>
 			<p className="control">

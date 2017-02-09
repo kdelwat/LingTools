@@ -7,6 +7,7 @@ import StyledForm from './components/StyledForm';
 const nameFormSchema = {
 	title: 'Personal Information',
 	type: 'object',
+	required: ['firstName'],
 	properties: {
 		firstName: {
 			title: 'First name',
