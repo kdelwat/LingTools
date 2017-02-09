@@ -9,7 +9,9 @@ const Home = () => (
 		<NotificationArea />
 		<Block width={'100%'}>
 			<h1>Welcome to the site!</h1>
-			<button onClick={addNotification} />
+			<button onClick={() => addNotification('An error occured', 'warning')} />
+			<button onClick={() => addNotification('An info occured', 'info')} />
+
 		</Block>
 		<Block width={'50%'} mobileWidth={'100%'}>
 			<h2>Hello, world!</h2>
