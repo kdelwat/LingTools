@@ -32,6 +32,8 @@ export function NotificationArea() {
 export function addNotification(message, type) {
 	const container = document.getElementById('notification-area'); // eslint-disable-line no-undef
 
+	// Unmount any existing notifications.
+	ReactDOM.unmountComponentAtNode(container);
 	// Render the new notification in the NotificationArea. We must pass it the container so that it
 	// can delete itself.
 	ReactDOM.render(<Notification container={container} message={message} type={type} />,
