@@ -17,12 +17,19 @@ class Steps extends React.Component {
 		};
 
 		this.renderNextButton = this.renderNextButton.bind(this);
+		this.renderBackButton = this.renderBackButton.bind(this);
 		this.next = this.next.bind(this);
+		this.back = this.back.bind(this);
 	}
 
 	next() {
 		const { step } = this.state;
 		this.setState({ step: step + 1 });
+	}
+
+	back() {
+		const { step } = this.state;
+		this.setState({ step: step - 1 });
 	}
 
 	renderNextButton(currentStep) {
@@ -42,6 +49,21 @@ class Steps extends React.Component {
 		);
 	}
 
+	renderBackButton() {
+		if (this.state.step <= 1) {
+			return null;
+		}
+
+		return (
+			<button
+				className="button"
+				onClick={this.back}
+			>
+				Back
+			</button>
+		);
+	}
+
 	render() {
 		const currentStep = this.props.steps[this.state.step - 1];
 		return (
@@ -53,6 +75,7 @@ class Steps extends React.Component {
 						value={this.state.step}
 						max={this.props.steps.length}
 					/>
+					{this.renderBackButton()}
 					{this.renderNextButton(currentStep)}
 					<hr />
 				</div>
