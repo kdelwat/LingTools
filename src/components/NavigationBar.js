@@ -27,9 +27,7 @@ function NavigationBar(props) {
 		<div>
 			<nav className="nav has-shadow">
 				<div className="nav-left">
-					<a key={'/'} className="nav-item is-home">
-						<Link to={'/'}>SMOOTHIE</Link>
-					</a>
+					<Link className="nav-item is-home" key={'/'} to={'/'}>SMOOTHIE</Link>
 				</div>
 
 				<div className="nav-right">
@@ -59,9 +57,7 @@ function renderLink(link, currentUrl) {
 	}
 
 	return (
-		<a key={link.url} className={classes}>
-			<Link to={link.url}>{link.text}</Link>
-		</a>
+		<Link className={classes} key={link.url} to={link.url}>{link.text}</Link>
 	);
 }
 
