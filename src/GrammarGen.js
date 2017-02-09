@@ -2,6 +2,7 @@ import React from 'react';
 import { dataURItoBlob } from 'react-jsonschema-form/lib/utils';
 
 import Block, { Container } from './components/Layout';
+import { NotificationArea, addNotification } from './components/Notifications';
 import OrderableListView from './components/OrderableListView';
 import StyledForm from './components/StyledForm';
 
@@ -70,7 +71,7 @@ class GrammarGen extends React.Component {
 		const fileObjects = data.formData.files.map(fileURI => dataURItoBlob(fileURI));
 
 		if (fileObjects.some(file => !validFileTypes.includes(file.blob.type))) {
-			console.log('Not allowed!');
+			addNotification('Files must be Markdown!', 'error');
 		} else {
 			this.setState({ files: fileObjects });
 		}
@@ -83,6 +84,7 @@ class GrammarGen extends React.Component {
 	render() {
 		return (
 			<Container>
+				<NotificationArea />
 				<Block width={'100%'}>
 					<h1>Welcome to GrammarGen!</h1>
 					{JSON.stringify(this.state.files)}
