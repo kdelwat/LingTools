@@ -1,10 +1,15 @@
 import React from 'react';
+
 import Block, { Container } from './components/Layout';
+import { NotificationArea, addNotification } from './components/Notifications';
+
 
 const Home = () => (
 	<Container>
+		<NotificationArea />
 		<Block width={'100%'}>
 			<h1>Welcome to the site!</h1>
+			<button onClick={addNotification} />
 		</Block>
 		<Block width={'50%'} mobileWidth={'100%'}>
 			<h2>Hello, world!</h2>
