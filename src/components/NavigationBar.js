@@ -25,7 +25,7 @@ function NavigationBar(props) {
 
 	return (
 		<div>
-			<nav className="nav">
+			<nav className="nav has-shadow">
 				<div className="nav-left">
 					<a key={'/'} className="nav-item is-home">
 						<Link to={'/'}>SMOOTHIE</Link>
