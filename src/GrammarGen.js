@@ -42,6 +42,8 @@ const filesSchema = {
 	},
 };
 
+const validFileTypes = ['text/plain', 'text/markdown'];
+
 class GrammarGen extends React.Component {
 	constructor(props) {
 		super(props);
@@ -66,7 +68,12 @@ class GrammarGen extends React.Component {
 	// file data.
 	filesFormSubmitted(data) {
 		const fileObjects = data.formData.files.map(fileURI => dataURItoBlob(fileURI));
-		this.setState({ files: fileObjects });
+
+		if (fileObjects.some(file => !validFileTypes.includes(file.blob.type))) {
+			console.log('Not allowed!');
+		} else {
+			this.setState({ files: fileObjects });
+		}
 	}
 
 	updateFiles(files) {
