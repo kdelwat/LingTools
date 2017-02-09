@@ -11,9 +11,15 @@ which adds a new item based on an add function passed to the component as a
 prop.
 
 Props:
-	- initial (optional): an array of initial list values.
-	- addFunction (required): a function which takes no arguments and returns a new item.
-	- title (required): the title of the list.
+	- items (required): an array of items to render in the list.
+	- onUpdate (required): a callback which is passed the new items when a change is made.
+	- displayFunction (optional): a function that takes each item and returns a string for
+	rendering, useful for arrays of objects (e.g. {item => item.name})
+	- addFunction: a function that returns a new item when invoked. If an addFunction is specified,
+	an add button will be rendered to trigger it.
+	- title (optional): a string to display as the list title.
+    - removable (optional): a boolean (default false) that determines whether a remove option is
+	present for list items.
 */
 class OrderableListView extends React.Component {
 	constructor(props) {
@@ -113,8 +119,8 @@ class OrderableListView extends React.Component {
 	// Given a list item and its index, render the item and its controls.
 	renderItem(listItem, index) {
 		let itemString = null;
-		if (this.props.itemTransformer) {
-			itemString = this.props.itemTransformer(listItem);
+		if (this.props.displayFunction) {
+			itemString = this.props.displayFunction(listItem);
 		} else {
 			itemString = listItem;
 		}

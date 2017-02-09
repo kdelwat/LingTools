@@ -65,7 +65,7 @@ class GrammarGen extends React.Component {
 						onUpdate={this.updateFiles}
 						title="Files"
 						removable
-						itemTransformer={item => item.name}
+						displayFunction={item => item.name}
 						addFunction={() => Math.random() * 1000}
 					/>
 				</Block>
