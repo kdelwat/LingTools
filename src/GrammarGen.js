@@ -5,6 +5,7 @@ import Block, { Container } from './components/Layout';
 import { NotificationArea, addNotification } from './components/Notifications';
 import OrderableListView from './components/OrderableListView';
 import StyledForm from './components/StyledForm';
+import Steps from './components/Steps';
 
 const nameFormSchema = {
 	title: 'Personal Information',
@@ -81,14 +82,9 @@ class GrammarGen extends React.Component {
 		this.setState({ files });
 	}
 
-	render() {
+	stepOne() {
 		return (
-			<Container>
-				<NotificationArea />
-				<Block width={'100%'}>
-					<h1>Welcome to GrammarGen!</h1>
-					{JSON.stringify(this.state.files)}
-				</Block>
+			<div className="inner-step">
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<StyledForm
 						schema={filesSchema}
@@ -110,6 +106,19 @@ class GrammarGen extends React.Component {
 						onSubmit={this.settingsFormSubmitted}
 					/>
 				</Block>
+			</div>
+		);
+	}
+
+	render() {
+		return (
+			<Container>
+				<NotificationArea />
+				<Block width={'100%'}>
+					<h1>Welcome to GrammarGen!</h1>
+					{JSON.stringify(this.state.files)}
+				</Block>
+				<Steps steps={[this.stepOne()]} />
 			</Container >
 		);
 	}
