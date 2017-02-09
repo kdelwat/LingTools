@@ -18,9 +18,6 @@ Props:
 class OrderableListView extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			items: props.initial ? props.initial : [],
-		};
 
 		this.update = this.update.bind(this);
 		this.renderItem = this.renderItem.bind(this);
@@ -31,20 +28,17 @@ class OrderableListView extends React.Component {
 	}
 
 	// Update the parent component with the new list.
-	update() {
-		console.log(this.state.items);
-		this.props.onUpdate(this.state.items);
+	update(items) {
+		this.props.onUpdate(items);
 	}
 
 	// Call the add function specified in props and add the return value to the
 	// end of the list.
 	addItem() {
-		const { items } = this.state;
+		const items = this.props.items;
 		const newValue = this.props.addFunction();
 
-		this.setState({
-			items: [...items, newValue],
-		}, this.update);
+		this.update([...items, newValue]);
 	}
 
 	// Move the item specified by index up one position in the list
@@ -54,20 +48,18 @@ class OrderableListView extends React.Component {
 			return;
 		}
 
-		const { items } = this.state;
+		const items = this.props.items;
 
 		const promotedItem = items[index];
 		items[index] = items[index - 1];
 		items[index - 1] = promotedItem;
 
-		this.setState({
-			items,
-		}, this.update);
+		this.update(items);
 	}
 
 	// Move the item specified by index down one position in the list
 	demoteItem(index) {
-		const { items } = this.state;
+		const items = this.props.items;
 
 		// If the item is already the last item, don't do anything
 		if (index === items.length - 1) {
@@ -78,20 +70,14 @@ class OrderableListView extends React.Component {
 		items[index] = items[index + 1];
 		items[index + 1] = demotedItem;
 
-		this.setState({
-			items,
-		}, this.update);
+		this.update(items);
 	}
 
 	// Delete the item specified by index
 	deleteItem(index) {
-		const { items } = this.state;
-
+		const items = this.props.items;
 		items.splice(index, 1);
-
-		this.setState({
-			items,
-		}, this.update);
+		this.update(items);
 	}
 
 	// If there is an addFunction, return an add button. Otherwise return null.
@@ -166,7 +152,7 @@ class OrderableListView extends React.Component {
 				</div>
 
 				<div className="orderable-list-body">
-					{this.state.items.map(this.renderItem)}
+					{this.props.items.map(this.renderItem)}
 				</div>
 			</div>
 		);

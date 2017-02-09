@@ -61,7 +61,7 @@ class GrammarGen extends React.Component {
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<h2>Gday, {this.state.firstName} {this.state.lastName}!</h2>
 					<OrderableListView
-						initial={this.state.files}
+						items={this.state.files}
 						onUpdate={this.updateFiles}
 						title="Files"
 						removable
