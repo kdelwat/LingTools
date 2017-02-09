@@ -44,10 +44,10 @@ function CustomFieldTemplate(props) {
 				{props.label}{props.required ? '*' : null}
 				{helpMessage}
 			</label>
-			<p className="control">
+			<div className="control">
 				{props.children}
 				{props.rawErrors ? props.rawErrors.map(renderError) : null}
-			</p>
+			</div>
 		</div>
 	);
 }
