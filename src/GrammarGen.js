@@ -55,6 +55,7 @@ class GrammarGen extends React.Component {
 					<OrderableListView
 						initial={[1, 2]}
 						title="Files"
+						removable
 						addFunction={() => Math.random() * 1000}
 					/>
 				</Block>

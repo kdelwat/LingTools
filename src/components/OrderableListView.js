@@ -86,6 +86,21 @@ class OrderableListView extends React.Component {
 		});
 	}
 
+	// If the removable prop is true, return a delete button. Otherwise return null.
+	renderDeleteButton(index) {
+		if (this.props.removable) {
+			return (
+				<a onClick={() => this.deleteItem(index)}>
+					<span className="icon">
+						<TiDelete />
+					</span>
+				</a>
+			);
+		}
+
+		return null;
+	}
+
 	// Given a list item and its index, render the item and its controls.
 	renderItem(listItem, index) {
 		return (
@@ -104,11 +119,7 @@ class OrderableListView extends React.Component {
 							<TiArrowSortedDown />
 						</span>
 					</a>
-					<a onClick={() => this.deleteItem(index)}>
-						<span className="icon">
-							<TiDelete />
-						</span>
-					</a>
+					{this.renderDeleteButton(index)}
 				</span>
 			</div>
 		);
