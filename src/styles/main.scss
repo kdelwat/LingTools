@@ -100,3 +100,51 @@ input {
     text-align: left;
 	font-weight: normal;
 }
+
+// Notifications
+.notification {
+	position: fixed;
+	right: 0;
+	top: 0;
+	margin-right: 1em;
+	margin-top: 1em;
+	z-index: 2;
+
+	animation: wiggle 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1 normal;
+}
+
+@keyframes wiggle {
+	0% {
+		transform: scale(1.2, 1.2);
+	}
+	10% {
+		transform: translateY(1px) scale(1.1, 1.1);
+	};
+	20% {
+		transform: translateY(-1px) scale(1, 1);
+	};
+	30%, 70% {
+		transform: translateY(2px);
+	};
+	40%, 80% {
+		transform: translateY(-2px);
+	};
+	50%{
+		transform: translateY(2px);
+	};
+	60%{
+		transform: translateY(-2px);
+	};
+	90% {
+		transform: translateY(1px);
+	};
+}
+
+@keyframes zoom-in {
+	0% {
+		transform: scale(1.2, 1.2);
+	}
+	100% {
+		transform: scale(1, 1);
+	}
+}
