@@ -88,6 +88,18 @@ const filesSchema = {
 	},
 };
 
+const singleFileSchema = {
+	title: 'Lexicon file',
+	type: 'object',
+	properties: {
+		csv: {
+			type: 'string',
+			title: 'File',
+			format: 'data-url',
+		},
+	},
+};
+
 const validFileTypes = ['text/plain', 'text/markdown'];
 
 class GrammarGen extends React.Component {
@@ -103,6 +115,7 @@ class GrammarGen extends React.Component {
 
 		this.basicFormSubmitted = this.basicFormSubmitted.bind(this);
 		this.filesFormSubmitted = this.filesFormSubmitted.bind(this);
+		this.singleFileFormSubmitted = this.singleFileFormSubmitted.bind(this);
 		this.outputFormSubmitted = this.outputFormSubmitted.bind(this);
 		this.updateFiles = this.updateFiles.bind(this);
 
@@ -134,6 +147,17 @@ class GrammarGen extends React.Component {
 		} else {
 			addNotification('Files successfully loaded!', 'success');
 			this.setState({ files: fileObjects });
+		}
+	}
+
+	singleFileFormSubmitted(data) {
+		const fileObject = dataURItoBlob(data.formData.csv);
+
+		if (fileObject.blob.type !== 'text/csv') {
+			addNotification('File must be CSV!', 'error');
+		} else {
+			addNotification('File successfully loaded!', 'success');
+			this.setState({ csv: fileObject });
 		}
 	}
 
@@ -224,6 +248,33 @@ class GrammarGen extends React.Component {
 
 	stepFour() {
 		return (
+			<Step advanceCondition={this.state.csv}>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<div className="content">
+						Select a CSV file using the input to the right.
+						Once you have selected the file,
+						press <strong>Validate</strong> to ensure the filetype is
+						correct, then proceed to the next step.
+
+					</div>
+				</Block>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<StyledForm
+						schema={singleFileSchema}
+						onSubmit={this.singleFileFormSubmitted}
+						className="file-selector"
+					>
+						<div>
+							<button type="submit" className="button is-info">Validate</button>
+						</div>
+					</StyledForm>
+				</Block>
+			</Step>
+		);
+	}
+
+	stepFive() {
+		return (
 			<Step advanceCondition={this.state.author.length > 0 && this.state.grammarTitle.length > 0}>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<div className="content">
@@ -246,7 +297,7 @@ class GrammarGen extends React.Component {
 		);
 	}
 
-	stepFive() {
+	stepSix() {
 		let formatSettingsForm = null;
 
 		if (this.state.format) {
@@ -315,7 +366,8 @@ class GrammarGen extends React.Component {
 						this.stepTwo(),
 						this.stepThree(),
 						this.stepFour(),
-						this.stepFive()]}
+						this.stepFive(),
+						this.stepSix()]}
 				/>
 			</Container >
 		);
