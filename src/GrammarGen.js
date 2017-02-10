@@ -130,8 +130,12 @@ class GrammarGen extends React.Component {
 			<Container>
 				<NotificationArea />
 				<Block width={'100%'}>
-					<h1>Welcome to GrammarGen!</h1>
-					{JSON.stringify(this.state.files)}
+					<div className="content">
+						<p>
+							<strong>GrammarGen</strong> is a simple tool allowing the creation of professional-looking language reference grammars from Markdown source. It supports all features of <a href="http://pandoc.org/MANUAL.html">Pandoc Markdown</a> as well as custom linguistics features, which are shown below.
+						</p>
+					</div>
+					{JSON.stringify(this.state)}
 				</Block>
 				<Steps steps={[this.stepOne(), this.stepTwo()]} />
 			</Container >
