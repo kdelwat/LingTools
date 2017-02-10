@@ -28,7 +28,7 @@ const metadataSchema = {
 	},
 };
 
-const outputSchema = {
+const formatSchema = {
 	title: 'Output settings',
 	type: 'object',
 	required: ['format'],
@@ -67,13 +67,13 @@ const HTMLSettingsSchema = {
 	},
 };
 
-const formatSchemas = {
+const availableFormatSchemas = {
 	'LaTeX PDF': latexSettingsSchema,
 	HTML: HTMLSettingsSchema,
 	undefined: null,
 };
 
-const filesSchema = {
+const markdownFilesSchema = {
 	title: 'Source files',
 	type: 'object',
 	properties: {
@@ -88,7 +88,7 @@ const filesSchema = {
 	},
 };
 
-const singleFileSchema = {
+const CSVFileSchema = {
 	title: 'Lexicon file',
 	type: 'object',
 	properties: {
@@ -113,10 +113,10 @@ class GrammarGen extends React.Component {
 			files: [],
 		};
 
-		this.basicFormSubmitted = this.basicFormSubmitted.bind(this);
-		this.filesFormSubmitted = this.filesFormSubmitted.bind(this);
-		this.singleFileFormSubmitted = this.singleFileFormSubmitted.bind(this);
-		this.outputFormSubmitted = this.outputFormSubmitted.bind(this);
+		this.genericFormSubmitted = this.genericFormSubmitted.bind(this);
+		this.markdownFilesFormSubmitted = this.markdownFilesFormSubmitted.bind(this);
+		this.csvFileFormSubmitted = this.csvFileFormSubmitted.bind(this);
+		this.generateFormSubmitted = this.generateFormSubmitted.bind(this);
 		this.updateFiles = this.updateFiles.bind(this);
 
 		this.generate = this.generate.bind(this);
@@ -127,11 +127,11 @@ class GrammarGen extends React.Component {
 		console.log(this.state);
 	}
 
-	basicFormSubmitted(data) {
+	genericFormSubmitted(data) {
 		this.setState(data.formData);
 	}
 
-	outputFormSubmitted(data) {
+	generateFormSubmitted(data) {
 		this.setState(data.formData,
 			this.generate);
 	}
@@ -139,7 +139,12 @@ class GrammarGen extends React.Component {
 	// Convert the files given in the file selector into objects,
 	// where name is the filename and blob is the blob containing
 	// file data.
-	filesFormSubmitted(data) {
+	markdownFilesFormSubmitted(data) {
+		if (!data.formData.files) {
+			addNotification('No files selected!', 'error');
+			return;
+		}
+
 		const fileObjects = data.formData.files.map(fileURI => dataURItoBlob(fileURI));
 
 		if (fileObjects.some(file => !validFileTypes.includes(file.blob.type))) {
@@ -150,7 +155,12 @@ class GrammarGen extends React.Component {
 		}
 	}
 
-	singleFileFormSubmitted(data) {
+	csvFileFormSubmitted(data) {
+		if (!data.formData.csv) {
+			addNotification('No file selected!', 'error');
+			return;
+		}
+
 		const fileObject = dataURItoBlob(data.formData.csv);
 
 		if (fileObject.blob.type !== 'text/csv') {
@@ -165,7 +175,7 @@ class GrammarGen extends React.Component {
 		this.setState({ files });
 	}
 
-	stepOne() {
+	stepIntroduction() {
 		return (
 			<Step advanceCondition>
 				<Block width={'100%'} mobileWidth={'100%'}>
@@ -196,7 +206,7 @@ class GrammarGen extends React.Component {
 		);
 	}
 
-	stepTwo() {
+	stepMarkdownFiles() {
 		return (
 			<Step advanceCondition={this.state.files.length > 0}>
 				<Block width={'50%'} mobileWidth={'100%'}>
@@ -210,8 +220,8 @@ class GrammarGen extends React.Component {
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<StyledForm
-						schema={filesSchema}
-						onSubmit={this.filesFormSubmitted}
+						schema={markdownFilesSchema}
+						onSubmit={this.markdownFilesFormSubmitted}
 						className="file-selector"
 					>
 						<div>
@@ -223,7 +233,7 @@ class GrammarGen extends React.Component {
 		);
 	}
 
-	stepThree() {
+	stepOrderFiles() {
 		return (
 			<Step advanceCondition>
 				<Block width={'50%'} mobileWidth={'100%'}>
@@ -246,7 +256,7 @@ class GrammarGen extends React.Component {
 		);
 	}
 
-	stepFour() {
+	stepCSVFile() {
 		return (
 			<Step advanceCondition={this.state.csv}>
 				<Block width={'50%'} mobileWidth={'100%'}>
@@ -260,8 +270,8 @@ class GrammarGen extends React.Component {
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<StyledForm
-						schema={singleFileSchema}
-						onSubmit={this.singleFileFormSubmitted}
+						schema={CSVFileSchema}
+						onSubmit={this.csvFileFormSubmitted}
 						className="file-selector"
 					>
 						<div>
@@ -273,7 +283,7 @@ class GrammarGen extends React.Component {
 		);
 	}
 
-	stepFive() {
+	stepMetadata() {
 		return (
 			<Step advanceCondition={this.state.author.length > 0 && this.state.grammarTitle.length > 0}>
 				<Block width={'50%'} mobileWidth={'100%'}>
@@ -285,7 +295,7 @@ class GrammarGen extends React.Component {
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<StyledForm
 						schema={metadataSchema}
-						onSubmit={this.basicFormSubmitted}
+						onSubmit={this.genericFormSubmitted}
 						formData={this.state}
 					>
 						<div>
@@ -297,15 +307,15 @@ class GrammarGen extends React.Component {
 		);
 	}
 
-	stepSix() {
+	stepGenerate() {
 		let formatSettingsForm = null;
 
 		if (this.state.format) {
-			const formatSettingsSchema = formatSchemas[this.state.format];
+			const formatSettingsSchema = availableFormatSchemas[this.state.format];
 			formatSettingsForm = (
 				<StyledForm
 					schema={formatSettingsSchema}
-					onSubmit={this.outputFormSubmitted}
+					onSubmit={this.generateFormSubmitted}
 					formData={this.state}
 				>
 					<div>
@@ -324,8 +334,8 @@ class GrammarGen extends React.Component {
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<StyledForm
-						schema={outputSchema}
-						onChange={this.basicFormSubmitted}
+						schema={formatSchema}
+						onChange={this.genericFormSubmitted}
 						formData={this.state}
 					>
 						<div />
@@ -362,12 +372,12 @@ class GrammarGen extends React.Component {
 
 				<Steps
 					steps={[
-						this.stepOne(),
-						this.stepTwo(),
-						this.stepThree(),
-						this.stepFour(),
-						this.stepFive(),
-						this.stepSix()]}
+						this.stepIntroduction(),
+						this.stepMarkdownFiles(),
+						this.stepOrderFiles(),
+						this.stepCSVFile(),
+						this.stepMetadata(),
+						this.stepGenerate()]}
 				/>
 			</Container >
 		);
