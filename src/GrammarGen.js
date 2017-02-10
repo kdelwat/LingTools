@@ -224,7 +224,7 @@ class GrammarGen extends React.Component {
 
 	stepFour() {
 		return (
-			<Step advanceCondition>
+			<Step advanceCondition={this.state.author.length > 0 && this.state.grammarTitle.length > 0}>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<div className="content">
 						Fill in metadata and other details which will be
