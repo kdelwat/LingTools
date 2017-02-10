@@ -5,6 +5,7 @@ import Block, { Container } from './components/Layout';
 import { NotificationArea, addNotification } from './components/Notifications';
 import OrderableListView from './components/OrderableListView';
 import StyledForm from './components/StyledForm';
+import Steps, { Step } from './components/Steps';
 
 const nameFormSchema = {
 	title: 'Personal Information',
@@ -81,26 +82,13 @@ class GrammarGen extends React.Component {
 		this.setState({ files });
 	}
 
-	render() {
+	stepOne() {
 		return (
-			<Container>
-				<NotificationArea />
-				<Block width={'100%'}>
-					<h1>Welcome to GrammarGen!</h1>
-					{JSON.stringify(this.state.files)}
-				</Block>
+			<Step advanceCondition={this.state.files.length > 0}>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<StyledForm
 						schema={filesSchema}
 						onSubmit={this.filesFormSubmitted}
-					/>
-					<OrderableListView
-						items={this.state.files}
-						onUpdate={this.updateFiles}
-						title="Files"
-						removable
-						displayFunction={item => item.name + ' ' + item.blob.size}
-						addFunction={() => Math.random() * 1000}
 					/>
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
@@ -110,6 +98,40 @@ class GrammarGen extends React.Component {
 						onSubmit={this.settingsFormSubmitted}
 					/>
 				</Block>
+			</Step>
+		);
+	}
+
+	stepTwo() {
+		return (
+			<Step>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<OrderableListView
+						items={this.state.files}
+						onUpdate={this.updateFiles}
+						title="Files"
+						removable
+						displayFunction={item => item.name + ' ' + item.blob.size}
+						addFunction={() => Math.random() * 1000}
+					/>
+				</Block>
+
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<h1>How are you doing today?</h1>
+				</Block>
+			</Step>
+		);
+	}
+
+	render() {
+		return (
+			<Container>
+				<NotificationArea />
+				<Block width={'100%'}>
+					<h1>Welcome to GrammarGen!</h1>
+					{JSON.stringify(this.state.files)}
+				</Block>
+				<Steps steps={[this.stepOne(), this.stepTwo()]} />
 			</Container >
 		);
 	}
