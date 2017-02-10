@@ -138,7 +138,13 @@ class GrammarGen extends React.Component {
 
 					</div>
 					<Tabs>
-						<Tab title="One">Hello</Tab>
+						<Tab title="One">
+							<div className="content">
+								<p>This is an example feature. It does stuff, in the format:</p>
+								<blockquote>@ example,<br />more</blockquote>
+
+							</div>
+						</Tab>
 						<Tab title="Two">Goodbye</Tab>
 					</Tabs>
 					{JSON.stringify(this.state)}
