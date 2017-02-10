@@ -76,6 +76,7 @@ class GrammarGen extends React.Component {
 		if (fileObjects.some(file => !validFileTypes.includes(file.blob.type))) {
 			addNotification('Files must be Markdown!', 'error');
 		} else {
+			addNotification('Files successfully loaded!', 'success');
 			this.setState({ files: fileObjects });
 		}
 	}
@@ -119,18 +120,24 @@ class GrammarGen extends React.Component {
 		return (
 			<Step advanceCondition={this.state.files.length > 0}>
 				<Block width={'50%'} mobileWidth={'100%'}>
+					<div className="content">
+						Select any number of Markdown files with the button to
+						the right. They can be re-ordered in the next step.
+						Once you have selected all the desired files,
+						press <strong>Validate</strong> to ensure they are the correct
+						filetype, then proceed to the next step.
+					</div>
+				</Block>
+				<Block width={'50%'} mobileWidth={'100%'}>
 					<StyledForm
 						schema={filesSchema}
 						onSubmit={this.filesFormSubmitted}
 						className="file-selector"
-					/>
-				</Block>
-				<Block width={'50%'} mobileWidth={'100%'}>
-					<StyledForm
-						schema={nameFormSchema}
-						uiSchema={nameFormUISchema}
-						onSubmit={this.settingsFormSubmitted}
-					/>
+					>
+						<div>
+							<button type="submit" className="button is-info">Validate</button>
+						</div>
+					</StyledForm>
 				</Block>
 			</Step>
 		);

@@ -72,7 +72,9 @@ function StyledForm(props) {
 			fields={fields}
 			showErrorList={false}
 			FieldTemplate={CustomFieldTemplate}
-		/>
+		>
+			{props.children}
+		</Form>
 	);
 }
 
