@@ -9,17 +9,20 @@ import Steps, { Step } from './components/Steps';
 import Tabs, { Tab } from './components/Tabs';
 
 const metadataSchema = {
-	title: 'Personal Information',
+	title: 'Metadata',
 	type: 'object',
-	required: ['firstName'],
+	required: ['author', 'grammarTitle'],
 	properties: {
-		firstName: {
-			title: 'First name',
+		grammarTitle: {
+			title: 'Title',
 			type: 'string',
-			minLength: 8,
 		},
-		lastName: {
-			title: 'Last name',
+		grammarSubtitle: {
+			title: 'Subtitle',
+			type: 'string',
+		},
+		author: {
+			title: 'Author',
 			type: 'string',
 		},
 	},
@@ -53,8 +56,9 @@ class GrammarGen extends React.Component {
 		super(props);
 
 		this.state = {
-			firstName: 'Paul',
-			lastName: 'Hogan',
+			author: '',
+			grammarTitle: 'My language',
+			grammarSubtitle: 'A descriptive grammar',
 			files: [],
 		};
 
@@ -180,7 +184,12 @@ class GrammarGen extends React.Component {
 						schema={metadataSchema}
 						uiSchema={metadataUISchema}
 						onSubmit={this.basicFormSubmitted}
-					/>
+						formData={this.state}
+					>
+						<div>
+							<button type="submit" className="button is-info">Validate</button>
+						</div>
+					</StyledForm>
 				</Block>
 			</Step>
 		);
