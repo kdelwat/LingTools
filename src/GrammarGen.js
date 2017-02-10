@@ -114,8 +114,8 @@ class GrammarGen extends React.Component {
 		};
 
 		this.genericFormSubmitted = this.genericFormSubmitted.bind(this);
-		this.filesFormSubmitted = this.filesFormSubmitted.bind(this);
-		this.singleFileFormSubmitted = this.singleFileFormSubmitted.bind(this);
+		this.markdownFilesFormSubmitted = this.markdownFilesFormSubmitted.bind(this);
+		this.csvFileFormSubmitted = this.csvFileFormSubmitted.bind(this);
 		this.generateFormSubmitted = this.generateFormSubmitted.bind(this);
 		this.updateFiles = this.updateFiles.bind(this);
 
@@ -139,7 +139,12 @@ class GrammarGen extends React.Component {
 	// Convert the files given in the file selector into objects,
 	// where name is the filename and blob is the blob containing
 	// file data.
-	filesFormSubmitted(data) {
+	markdownFilesFormSubmitted(data) {
+		if (!data.formData.files) {
+			addNotification('No files selected!', 'error');
+			return;
+		}
+
 		const fileObjects = data.formData.files.map(fileURI => dataURItoBlob(fileURI));
 
 		if (fileObjects.some(file => !validFileTypes.includes(file.blob.type))) {
@@ -150,7 +155,12 @@ class GrammarGen extends React.Component {
 		}
 	}
 
-	singleFileFormSubmitted(data) {
+	csvFileFormSubmitted(data) {
+		if (!data.formData.csv) {
+			addNotification('No file selected!', 'error');
+			return;
+		}
+
 		const fileObject = dataURItoBlob(data.formData.csv);
 
 		if (fileObject.blob.type !== 'text/csv') {
@@ -211,7 +221,7 @@ class GrammarGen extends React.Component {
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<StyledForm
 						schema={markdownFilesSchema}
-						onSubmit={this.filesFormSubmitted}
+						onSubmit={this.markdownFilesFormSubmitted}
 						className="file-selector"
 					>
 						<div>
@@ -261,7 +271,7 @@ class GrammarGen extends React.Component {
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<StyledForm
 						schema={CSVFileSchema}
-						onSubmit={this.singleFileFormSubmitted}
+						onSubmit={this.csvFileFormSubmitted}
 						className="file-selector"
 					>
 						<div>
