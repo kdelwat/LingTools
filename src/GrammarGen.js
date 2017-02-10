@@ -28,6 +28,51 @@ const metadataSchema = {
 	},
 };
 
+const outputSchema = {
+	title: 'Output settings',
+	type: 'object',
+	required: ['format'],
+	properties: {
+		format: {
+			title: 'Format',
+			type: 'string',
+			enum: ['LaTeX PDF', 'HTML'],
+		},
+	},
+};
+
+const latexSettingsSchema = {
+	title: 'LaTeX settings',
+	type: 'object',
+	required: ['theme'],
+	properties: {
+		theme: {
+			title: 'Theme',
+			type: 'string',
+			enum: ['Default'],
+		},
+	},
+};
+
+const HTMLSettingsSchema = {
+	title: 'HTML settings',
+	type: 'object',
+	required: ['theme'],
+	properties: {
+		theme: {
+			title: 'Theme',
+			type: 'string',
+			enum: ['Default'],
+		},
+	},
+};
+
+const formatSchemas = {
+	'LaTeX PDF': latexSettingsSchema,
+	HTML: HTMLSettingsSchema,
+	undefined: null,
+};
+
 const filesSchema = {
 	title: 'Source files',
 	type: 'object',
@@ -58,11 +103,24 @@ class GrammarGen extends React.Component {
 
 		this.basicFormSubmitted = this.basicFormSubmitted.bind(this);
 		this.filesFormSubmitted = this.filesFormSubmitted.bind(this);
+		this.outputFormSubmitted = this.outputFormSubmitted.bind(this);
 		this.updateFiles = this.updateFiles.bind(this);
+
+		this.generate = this.generate.bind(this);
+	}
+
+	generate() {
+		console.log('Generating with the following data: ');
+		console.log(this.state);
 	}
 
 	basicFormSubmitted(data) {
 		this.setState(data.formData);
+	}
+
+	outputFormSubmitted(data) {
+		this.setState(data.formData,
+			this.generate);
 	}
 
 	// Convert the files given in the file selector into objects,
@@ -188,6 +246,45 @@ class GrammarGen extends React.Component {
 		);
 	}
 
+	stepFive() {
+		let formatSettingsForm = null;
+
+		if (this.state.format) {
+			const formatSettingsSchema = formatSchemas[this.state.format];
+			formatSettingsForm = (
+				<StyledForm
+					schema={formatSettingsSchema}
+					onSubmit={this.outputFormSubmitted}
+					formData={this.state}
+				>
+					<div>
+						<button type="submit" className="button is-success">Generate</button>
+					</div>
+				</StyledForm>);
+		}
+
+		return (
+			<Step advanceCondition>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<div className="content">
+						Choose desired output settings and
+						press <strong>Generate</strong> to create your grammar.
+					</div>
+				</Block>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<StyledForm
+						schema={outputSchema}
+						onChange={this.basicFormSubmitted}
+						formData={this.state}
+					>
+						<div />
+					</StyledForm>
+					{formatSettingsForm}
+				</Block>
+			</Step>
+		);
+	}
+
 	render() {
 		return (
 			<Container>
@@ -211,7 +308,15 @@ class GrammarGen extends React.Component {
 					</Tabs>
 					{JSON.stringify(this.state)}
 				</Block>
-				<Steps steps={[this.stepOne(), this.stepTwo(), this.stepThree(), this.stepFour()]} />
+
+				<Steps
+					steps={[
+						this.stepOne(),
+						this.stepTwo(),
+						this.stepThree(),
+						this.stepFour(),
+						this.stepFive()]}
+				/>
 			</Container >
 		);
 	}
