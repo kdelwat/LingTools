@@ -86,6 +86,37 @@ class GrammarGen extends React.Component {
 
 	stepOne() {
 		return (
+			<Step advanceCondition>
+				<Block width={'100%'} mobileWidth={'100%'}>
+					<div className="content">
+						<h3>Introduction</h3>
+						<p>GrammarGen requires its input to be in a specific
+						format in order to correctly output a grammar. The main
+						input is any number of Markdown files. The top-level heading of
+						each file (e.g. marked with <code>#</code>) should be the
+						title of the chapter. A simple example would look like
+						the following:</p>
+						<blockquote>
+							# Syntax<br /><br />
+
+							The syntax of the language is fairly simple.<br /><br />
+
+							## Alignment<br /><br />
+
+							The language has an ergative-absolutive alignment.<br />
+						</blockquote><br />
+						<p>In addition, an optional lexicon file can be
+						supplied in CSV format, which will be converted into a
+						dictionary reference (and in the case of HTML output,
+						hoverable definitions!).</p>
+					</div>
+				</Block>
+			</Step>
+		);
+	}
+
+	stepTwo() {
+		return (
 			<Step advanceCondition={this.state.files.length > 0}>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<StyledForm
@@ -105,7 +136,7 @@ class GrammarGen extends React.Component {
 		);
 	}
 
-	stepTwo() {
+	stepThree() {
 		return (
 			<Step>
 				<Block width={'50%'} mobileWidth={'100%'}>
@@ -149,7 +180,7 @@ class GrammarGen extends React.Component {
 					</Tabs>
 					{JSON.stringify(this.state)}
 				</Block>
-				<Steps steps={[this.stepOne(), this.stepTwo()]} />
+				<Steps steps={[this.stepOne(), this.stepTwo(), this.stepThree()]} />
 			</Container >
 		);
 	}
