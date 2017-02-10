@@ -8,7 +8,7 @@ import StyledForm from './components/StyledForm';
 import Steps, { Step } from './components/Steps';
 import Tabs, { Tab } from './components/Tabs';
 
-const nameFormSchema = {
+const metadataSchema = {
 	title: 'Personal Information',
 	type: 'object',
 	required: ['firstName'],
@@ -25,7 +25,7 @@ const nameFormSchema = {
 	},
 };
 
-const nameFormUISchema = {
+const metadataUISchema = {
 	firstName: {
 		'ui:help': 'A help message',
 	},
@@ -58,12 +58,12 @@ class GrammarGen extends React.Component {
 			files: [],
 		};
 
-		this.settingsFormSubmitted = this.settingsFormSubmitted.bind(this);
+		this.basicFormSubmitted = this.basicFormSubmitted.bind(this);
 		this.filesFormSubmitted = this.filesFormSubmitted.bind(this);
 		this.updateFiles = this.updateFiles.bind(this);
 	}
 
-	settingsFormSubmitted(data) {
+	basicFormSubmitted(data) {
 		this.setState(data.formData);
 	}
 
@@ -145,20 +145,42 @@ class GrammarGen extends React.Component {
 
 	stepThree() {
 		return (
-			<Step>
+			<Step advanceCondition>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<div className="content">
+						Use the arrows to place your input files in the order
+						they should appear in in the text. The top item is
+						first and so on.
+					</div>
+				</Block>
+
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<OrderableListView
 						items={this.state.files}
 						onUpdate={this.updateFiles}
-						title="Files"
-						removable
-						displayFunction={item => item.name + ' ' + item.blob.size}
-						addFunction={() => Math.random() * 1000}
+						title="Source files"
+						displayFunction={item => item.name}
 					/>
 				</Block>
+			</Step>
+		);
+	}
 
+	stepFour() {
+		return (
+			<Step advanceCondition>
 				<Block width={'50%'} mobileWidth={'100%'}>
-					<h1>How are you doing today?</h1>
+					<div className="content">
+						Fill in metadata and other details which will be
+						included in the output.
+					</div>
+				</Block>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<StyledForm
+						schema={metadataSchema}
+						uiSchema={metadataUISchema}
+						onSubmit={this.basicFormSubmitted}
+					/>
 				</Block>
 			</Step>
 		);
@@ -187,7 +209,7 @@ class GrammarGen extends React.Component {
 					</Tabs>
 					{JSON.stringify(this.state)}
 				</Block>
-				<Steps steps={[this.stepOne(), this.stepTwo(), this.stepThree()]} />
+				<Steps steps={[this.stepOne(), this.stepTwo(), this.stepThree(), this.stepFour()]} />
 			</Container >
 		);
 	}
