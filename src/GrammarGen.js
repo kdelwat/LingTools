@@ -36,6 +36,7 @@ const filesSchema = {
 	properties: {
 		files: {
 			type: 'array',
+			title: 'Select files',
 			items: {
 				type: 'string',
 				format: 'data-url',
@@ -89,6 +90,7 @@ class GrammarGen extends React.Component {
 					<StyledForm
 						schema={filesSchema}
 						onSubmit={this.filesFormSubmitted}
+						className="file-selector"
 					/>
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
