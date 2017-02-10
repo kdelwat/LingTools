@@ -64,6 +64,8 @@ input {
 	@extend .is-info;
 }
 
+// Forms
+
 .form-row {
 	margin-bottom: 1em;
 }
@@ -99,6 +101,25 @@ input {
     width: 300px;
     text-align: left;
 	font-weight: normal;
+}
+
+// File selector form
+
+form.file-selector {
+	label.label {
+		@extend .button;
+		font-weight: normal;
+		width: 100%;
+	}
+
+	.control {
+		p {
+			display: none;
+		}
+		ul {
+			display: block;
+		}
+	}
 }
 
 // Notifications
