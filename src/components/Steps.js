@@ -1,5 +1,8 @@
 import React from 'react';
 
+/* Step is a simple component which wraps other arbitrary components. It should
+be supplied a advanceCondition prop, which is a boolean determining whether the
+step is completed. */
 export function Step(props) {
 	return (
 		<div className="inner-step">
@@ -8,6 +11,9 @@ export function Step(props) {
 	);
 }
 
+/* Steps is a component which wraps an array of Step components, specified by
+the steps prop. It maintains the current step in state and handles advancing
+forwards and backwards through the steps. */
 class Steps extends React.Component {
 	constructor(props) {
 		super(props);
@@ -22,21 +28,26 @@ class Steps extends React.Component {
 		this.back = this.back.bind(this);
 	}
 
+	// Advance one step
 	next() {
 		const { step } = this.state;
 		this.setState({ step: step + 1 });
 	}
 
+	// Go back one step
 	back() {
 		const { step } = this.state;
 		this.setState({ step: step - 1 });
 	}
 
+	// Render the next button
 	renderNextButton(currentStep) {
+		// If there is no next step, return an empty div (to maintain positioning of the buttons).
 		if (this.state.step >= this.props.steps.length) {
-			return null;
+			return <div />;
 		}
 
+		// If the advance condition of the step hasn't been met, disable the button.
 		const nextButtonClass = currentStep.props.advanceCondition ? 'button' : 'button is-disabled';
 
 		return (
@@ -49,9 +60,12 @@ class Steps extends React.Component {
 		);
 	}
 
+	// Render the back button.
 	renderBackButton() {
+		// If there is no previous step, return an empty div (to maintain
+		// positioning of the buttons).
 		if (this.state.step <= 1) {
-			return null;
+			return <div />;
 		}
 
 		return (
@@ -69,15 +83,16 @@ class Steps extends React.Component {
 		return (
 			<div className="outer-step">
 				<div className="step-progress">
-					{this.state.step}
+					<hr />
 					<progress
-						className="progress"
+						className="progress is-success"
 						value={this.state.step}
 						max={this.props.steps.length}
 					/>
-					{this.renderBackButton()}
-					{this.renderNextButton(currentStep)}
-					<hr />
+					<div className="step-buttons">
+						{this.renderBackButton()}
+						{this.renderNextButton(currentStep)}
+					</div>
 				</div>
 				{this.props.steps[this.state.step - 1]}
 			</div>

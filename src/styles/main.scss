@@ -155,8 +155,21 @@ input {
 	width: 100%;
 }
 
+.step-progress {
+	padding: 0px 20px;
+}
+
+.progress {
+	transition: 1s;
+}
+
 .inner-step {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
+}
+
+.step-buttons {
+	display: flex;
+	justify-content: space-between;
 }
