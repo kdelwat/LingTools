@@ -6,6 +6,7 @@ import { NotificationArea, addNotification } from './components/Notifications';
 import OrderableListView from './components/OrderableListView';
 import StyledForm from './components/StyledForm';
 import Steps, { Step } from './components/Steps';
+import Tabs, { Tab } from './components/Tabs';
 
 const nameFormSchema = {
 	title: 'Personal Information',
@@ -134,7 +135,12 @@ class GrammarGen extends React.Component {
 						<p>
 							<strong>GrammarGen</strong> is a simple tool allowing the creation of professional-looking language reference grammars from Markdown source. It supports all features of <a href="http://pandoc.org/MANUAL.html">Pandoc Markdown</a> as well as custom linguistics features, which are shown below.
 						</p>
+
 					</div>
+					<Tabs>
+						<Tab title="One">Hello</Tab>
+						<Tab title="Two">Goodbye</Tab>
+					</Tabs>
 					{JSON.stringify(this.state)}
 				</Block>
 				<Steps steps={[this.stepOne(), this.stepTwo()]} />
