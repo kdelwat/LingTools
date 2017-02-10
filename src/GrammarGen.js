@@ -6,28 +6,71 @@ import { NotificationArea, addNotification } from './components/Notifications';
 import OrderableListView from './components/OrderableListView';
 import StyledForm from './components/StyledForm';
 import Steps, { Step } from './components/Steps';
+import Tabs, { Tab } from './components/Tabs';
 
-const nameFormSchema = {
-	title: 'Personal Information',
+const metadataSchema = {
+	title: 'Metadata',
 	type: 'object',
-	required: ['firstName'],
+	required: ['author', 'grammarTitle'],
 	properties: {
-		firstName: {
-			title: 'First name',
+		grammarTitle: {
+			title: 'Title',
 			type: 'string',
-			minLength: 8,
 		},
-		lastName: {
-			title: 'Last name',
+		grammarSubtitle: {
+			title: 'Subtitle',
+			type: 'string',
+		},
+		author: {
+			title: 'Author',
 			type: 'string',
 		},
 	},
 };
 
-const nameFormUISchema = {
-	firstName: {
-		'ui:help': 'A help message',
+const outputSchema = {
+	title: 'Output settings',
+	type: 'object',
+	required: ['format'],
+	properties: {
+		format: {
+			title: 'Format',
+			type: 'string',
+			enum: ['LaTeX PDF', 'HTML'],
+		},
 	},
+};
+
+const latexSettingsSchema = {
+	title: 'LaTeX settings',
+	type: 'object',
+	required: ['theme'],
+	properties: {
+		theme: {
+			title: 'Theme',
+			type: 'string',
+			enum: ['Default'],
+		},
+	},
+};
+
+const HTMLSettingsSchema = {
+	title: 'HTML settings',
+	type: 'object',
+	required: ['theme'],
+	properties: {
+		theme: {
+			title: 'Theme',
+			type: 'string',
+			enum: ['Default'],
+		},
+	},
+};
+
+const formatSchemas = {
+	'LaTeX PDF': latexSettingsSchema,
+	HTML: HTMLSettingsSchema,
+	undefined: null,
 };
 
 const filesSchema = {
@@ -52,18 +95,32 @@ class GrammarGen extends React.Component {
 		super(props);
 
 		this.state = {
-			firstName: 'Paul',
-			lastName: 'Hogan',
+			author: '',
+			grammarTitle: 'My language',
+			grammarSubtitle: 'A descriptive grammar',
 			files: [],
 		};
 
-		this.settingsFormSubmitted = this.settingsFormSubmitted.bind(this);
+		this.basicFormSubmitted = this.basicFormSubmitted.bind(this);
 		this.filesFormSubmitted = this.filesFormSubmitted.bind(this);
+		this.outputFormSubmitted = this.outputFormSubmitted.bind(this);
 		this.updateFiles = this.updateFiles.bind(this);
+
+		this.generate = this.generate.bind(this);
 	}
 
-	settingsFormSubmitted(data) {
+	generate() {
+		console.log('Generating with the following data: ');
+		console.log(this.state);
+	}
+
+	basicFormSubmitted(data) {
 		this.setState(data.formData);
+	}
+
+	outputFormSubmitted(data) {
+		this.setState(data.formData,
+			this.generate);
 	}
 
 	// Convert the files given in the file selector into objects,
@@ -75,6 +132,7 @@ class GrammarGen extends React.Component {
 		if (fileObjects.some(file => !validFileTypes.includes(file.blob.type))) {
 			addNotification('Files must be Markdown!', 'error');
 		} else {
+			addNotification('Files successfully loaded!', 'success');
 			this.setState({ files: fileObjects });
 		}
 	}
@@ -85,20 +143,30 @@ class GrammarGen extends React.Component {
 
 	stepOne() {
 		return (
-			<Step advanceCondition={this.state.files.length > 0}>
-				<Block width={'50%'} mobileWidth={'100%'}>
-					<StyledForm
-						schema={filesSchema}
-						onSubmit={this.filesFormSubmitted}
-						className="file-selector"
-					/>
-				</Block>
-				<Block width={'50%'} mobileWidth={'100%'}>
-					<StyledForm
-						schema={nameFormSchema}
-						uiSchema={nameFormUISchema}
-						onSubmit={this.settingsFormSubmitted}
-					/>
+			<Step advanceCondition>
+				<Block width={'100%'} mobileWidth={'100%'}>
+					<div className="content">
+						<h3>Introduction</h3>
+						<p>GrammarGen requires its input to be in a specific
+						format in order to correctly output a grammar. The main
+						input is any number of Markdown files. The top-level heading of
+						each file (e.g. marked with <code>#</code>) should be the
+						title of the chapter. A simple example would look like
+						the following:</p>
+						<blockquote>
+							# Syntax<br /><br />
+
+							The syntax of the language is fairly simple.<br /><br />
+
+							## Alignment<br /><br />
+
+							The language has an ergative-absolutive alignment.<br />
+						</blockquote><br />
+						<p>In addition, an optional lexicon file can be
+						supplied in CSV format, which will be converted into a
+						dictionary reference (and in the case of HTML output,
+						hoverable definitions!).</p>
+					</div>
 				</Block>
 			</Step>
 		);
@@ -106,20 +174,112 @@ class GrammarGen extends React.Component {
 
 	stepTwo() {
 		return (
-			<Step>
+			<Step advanceCondition={this.state.files.length > 0}>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<div className="content">
+						Select any number of Markdown files with the button to
+						the right. They can be re-ordered in the next step.
+						Once you have selected all the desired files,
+						press <strong>Validate</strong> to ensure they are the correct
+						filetype, then proceed to the next step.
+					</div>
+				</Block>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<StyledForm
+						schema={filesSchema}
+						onSubmit={this.filesFormSubmitted}
+						className="file-selector"
+					>
+						<div>
+							<button type="submit" className="button is-info">Validate</button>
+						</div>
+					</StyledForm>
+				</Block>
+			</Step>
+		);
+	}
+
+	stepThree() {
+		return (
+			<Step advanceCondition>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<div className="content">
+						Use the arrows to place your input files in the order
+						they should appear in in the text. The top item is
+						first and so on.
+					</div>
+				</Block>
+
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<OrderableListView
 						items={this.state.files}
 						onUpdate={this.updateFiles}
-						title="Files"
-						removable
-						displayFunction={item => item.name + ' ' + item.blob.size}
-						addFunction={() => Math.random() * 1000}
+						title="Source files"
+						displayFunction={item => item.name}
 					/>
 				</Block>
+			</Step>
+		);
+	}
 
+	stepFour() {
+		return (
+			<Step advanceCondition={this.state.author.length > 0 && this.state.grammarTitle.length > 0}>
 				<Block width={'50%'} mobileWidth={'100%'}>
-					<h1>How are you doing today?</h1>
+					<div className="content">
+						Fill in metadata and other details which will be
+						included in the output.
+					</div>
+				</Block>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<StyledForm
+						schema={metadataSchema}
+						onSubmit={this.basicFormSubmitted}
+						formData={this.state}
+					>
+						<div>
+							<button type="submit" className="button is-info">Validate</button>
+						</div>
+					</StyledForm>
+				</Block>
+			</Step>
+		);
+	}
+
+	stepFive() {
+		let formatSettingsForm = null;
+
+		if (this.state.format) {
+			const formatSettingsSchema = formatSchemas[this.state.format];
+			formatSettingsForm = (
+				<StyledForm
+					schema={formatSettingsSchema}
+					onSubmit={this.outputFormSubmitted}
+					formData={this.state}
+				>
+					<div>
+						<button type="submit" className="button is-success">Generate</button>
+					</div>
+				</StyledForm>);
+		}
+
+		return (
+			<Step advanceCondition>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<div className="content">
+						Choose desired output settings and
+						press <strong>Generate</strong> to create your grammar.
+					</div>
+				</Block>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<StyledForm
+						schema={outputSchema}
+						onChange={this.basicFormSubmitted}
+						formData={this.state}
+					>
+						<div />
+					</StyledForm>
+					{formatSettingsForm}
 				</Block>
 			</Step>
 		);
@@ -130,10 +290,33 @@ class GrammarGen extends React.Component {
 			<Container>
 				<NotificationArea />
 				<Block width={'100%'}>
-					<h1>Welcome to GrammarGen!</h1>
-					{JSON.stringify(this.state.files)}
+					<div className="content">
+						<p>
+							<strong>GrammarGen</strong> is a simple tool allowing the creation of professional-looking language reference grammars from Markdown source. It supports all features of <a href="http://pandoc.org/MANUAL.html">Pandoc Markdown</a> as well as custom linguistics features, which are shown below.
+						</p>
+
+					</div>
+					<Tabs>
+						<Tab title="One">
+							<div className="content">
+								<p>This is an example feature. It does stuff, in the format:</p>
+								<blockquote>@ example,<br />more</blockquote>
+
+							</div>
+						</Tab>
+						<Tab title="Two">Goodbye</Tab>
+					</Tabs>
+					{JSON.stringify(this.state)}
 				</Block>
-				<Steps steps={[this.stepOne(), this.stepTwo()]} />
+
+				<Steps
+					steps={[
+						this.stepOne(),
+						this.stepTwo(),
+						this.stepThree(),
+						this.stepFour(),
+						this.stepFive()]}
+				/>
 			</Container >
 		);
 	}

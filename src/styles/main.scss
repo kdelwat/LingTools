@@ -56,6 +56,10 @@ input {
 	@extend .input;
 }
 
+select {
+	@extend .select;
+}
+
 .btn {
 	@extend .button;
 }
@@ -193,4 +197,15 @@ form.file-selector {
 .step-buttons {
 	display: flex;
 	justify-content: space-between;
+}
+
+//Tabs
+
+.tabs:not(:last-child) {
+	margin-bottom: 1rem;
+}
+
+.tab-body {
+	margin-bottom: 1rem;
+	padding: 0px 14px;
 }

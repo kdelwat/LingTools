@@ -39,7 +39,7 @@ function CustomFieldTemplate(props) {
 
 	// Otherwise, correctly format the label and children with Bulma classes.
 	return (
-		<div className="form-row">
+		<div key={props.id} className="form-row">
 			<label htmlFor={props.id} className="label">
 				{props.label}{props.required ? '*' : null}
 				{helpMessage}
@@ -72,7 +72,9 @@ function StyledForm(props) {
 			fields={fields}
 			showErrorList={false}
 			FieldTemplate={CustomFieldTemplate}
-		/>
+		>
+			{props.children}
+		</Form>
 	);
 }
 
