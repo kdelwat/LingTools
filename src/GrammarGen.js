@@ -122,9 +122,42 @@ class GrammarGen extends React.Component {
 		this.generate = this.generate.bind(this);
 	}
 
+	// Place all current settings and files into a FormData object and send it to the server.
 	generate() {
 		console.log('Generating with the following data: ');
 		console.log(this.state);
+
+		const data = new FormData();  // eslint-disable-line no-undef
+
+		// An array of settings which should be sent to the server if available.
+		const availableSettings = [
+			'grammarTitle',
+			'grammarSubtitle',
+			'author',
+			'format',
+			'theme',
+		];
+
+		// Loop through these available settings and add those present in the
+		// current state to the FormData object.
+		availableSettings.map((setting) => { // eslint-disable-line
+			if (this.state[setting]) {
+				data.append(setting, this.state[setting]);
+			}
+		});
+
+		// Add each Markdown file to the FormData, using its filename prepended with a unique
+		// index to prevent collisions.
+		this.state.files.map((fileObject, index) =>
+			data.append(index + fileObject.name, fileObject.blob));
+
+		// Add the CSV file to the FormData, with its filename as the key.
+		data.append(this.state.csv.name, this.state.csv.blob);
+
+		// Post the data to the server endpoint.
+		const request = new XMLHttpRequest(); // eslint-disable-line no-undef
+		request.open('POST', 'http://127.0.0.1:5000');
+		request.send(data);
 	}
 
 	genericFormSubmitted(data) {
