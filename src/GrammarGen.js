@@ -122,6 +122,10 @@ class GrammarGen extends React.Component {
 		this.generate = this.generate.bind(this);
 	}
 
+	download(filename) {
+		window.open('http://127.0.0.1:5000/download?filename=' + filename, 'downloadFileWindow'); // eslint-disable-line
+	}
+
 	// Place all current settings and files into a FormData object and send it to the server.
 	generate() {
 		console.log('Generating with the following data: ');
@@ -156,6 +160,13 @@ class GrammarGen extends React.Component {
 
 		// Post the data to the server endpoint.
 		const request = new XMLHttpRequest(); // eslint-disable-line no-undef
+
+		request.onreadystatechange = () => {
+			if (request.readyState === XMLHttpRequest.DONE) { // eslint-disable-line
+				this.download(request.responseText);
+			}
+		};
+
 		request.open('POST', 'http://127.0.0.1:5000');
 		request.send(data);
 	}
