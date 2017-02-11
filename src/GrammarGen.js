@@ -8,6 +8,8 @@ import StyledForm from './components/StyledForm';
 import Steps, { Step } from './components/Steps';
 import Tabs, { Tab } from './components/Tabs';
 
+const baseServerURL = 'http://127.0.0.1:5000';
+
 const metadataSchema = {
 	title: 'Metadata',
 	type: 'object',
@@ -122,8 +124,9 @@ class GrammarGen extends React.Component {
 		this.generate = this.generate.bind(this);
 	}
 
+	// Given a relative filename, download the file by making a GET request to the server.
 	download(filename) {
-		window.open('http://127.0.0.1:5000/download?filename=' + filename, 'downloadFileWindow'); // eslint-disable-line
+		window.open(baseServerURL + '/download?filename=' + filename, 'downloadFileWindow'); // eslint-disable-line no-undef
 	}
 
 	// Place all current settings and files into a FormData object and send it to the server.
@@ -161,13 +164,15 @@ class GrammarGen extends React.Component {
 		// Post the data to the server endpoint.
 		const request = new XMLHttpRequest(); // eslint-disable-line no-undef
 
+		// Set a listener to trigger when the POST request is finished.
 		request.onreadystatechange = () => {
 			if (request.readyState === XMLHttpRequest.DONE) { // eslint-disable-line
+				// After receiving the filename back from the request, download the file.
 				this.download(request.responseText);
 			}
 		};
 
-		request.open('POST', 'http://127.0.0.1:5000');
+		request.open('POST', baseServerURL);
 		request.send(data);
 	}
 
