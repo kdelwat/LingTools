@@ -102,6 +102,42 @@ const CSVFileSchema = {
 	},
 };
 
+const CSVSettingsSchema = {
+	title: 'Lexicon columns',
+	type: 'object',
+	required: ['csvColumnWord', 'csvColumnLocal', 'csvColumnDefinition', 'csvColumnPronunciation', 'csvColumnPartOfSpeech'],
+	properties: {
+		csvColumnWord: {
+			type: 'integer',
+			title: 'Con-word',
+			minimum: 1,
+		},
+		csvColumnLocal: {
+			type: 'integer',
+			title: 'Local word',
+			minimum: 1,
+
+		},
+		csvColumnDefinition: {
+			type: 'integer',
+			title: 'Definition',
+			minimum: 1,
+
+		},
+		csvColumnPronunciation: {
+			type: 'integer',
+			title: 'Pronunciation',
+			minimum: 1,
+
+		},
+		csvColumnPartOfSpeech: {
+			type: 'integer',
+			title: 'Part of speech',
+			minimum: 1,
+		},
+	},
+};
+
 const validFileTypes = ['text/plain', 'text/markdown'];
 
 class GrammarGen extends React.Component {
@@ -113,6 +149,11 @@ class GrammarGen extends React.Component {
 			grammarTitle: 'My language',
 			grammarSubtitle: 'A descriptive grammar',
 			files: [],
+			csvColumnWord: 1,
+			csvColumnLocal: 2,
+			csvColumnDefinition: 6,
+			csvColumnPronunciation: 3,
+			csvColumnPartOfSpeech: 4,
 		};
 
 		this.genericFormSubmitted = this.genericFormSubmitted.bind(this);
@@ -143,6 +184,11 @@ class GrammarGen extends React.Component {
 			'author',
 			'format',
 			'theme',
+			'csvColumnWord',
+			'csvColumnLocal',
+			'csvColumnDefinition',
+			'csvColumnPronunciation',
+			'csvColumnPartOfSpeech',
 		];
 
 		// Loop through these available settings and add those present in the
@@ -332,6 +378,31 @@ class GrammarGen extends React.Component {
 		);
 	}
 
+	stepCSVColumns() {
+		return (
+			<Step advanceCondition>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<div className="content">
+						If needed, change the columns in the CSV file that
+						correspond to each part of the word definitions. The
+						first column is number 1. Make sure that the columns
+						are all different!
+					</div>
+				</Block>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<StyledForm
+						schema={CSVSettingsSchema}
+						liveValidate
+						onChange={this.genericFormSubmitted}
+						formData={this.state}
+					>
+						<div />
+					</StyledForm>
+				</Block>
+			</Step>
+		);
+	}
+
 	stepMetadata() {
 		return (
 			<Step advanceCondition={this.state.author.length > 0 && this.state.grammarTitle.length > 0}>
@@ -425,6 +496,7 @@ class GrammarGen extends React.Component {
 						this.stepMarkdownFiles(),
 						this.stepOrderFiles(),
 						this.stepCSVFile(),
+						this.stepCSVColumns(),
 						this.stepMetadata(),
 						this.stepGenerate()]}
 				/>
