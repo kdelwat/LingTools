@@ -354,15 +354,59 @@ class GrammarGen extends React.Component {
 					</div>
 
 					<Tabs>
-						<Tab title="One">
+						<Tab title="Example">
 							<div className="content">
-								<p>This is an example feature. It does stuff, in the format:</p>
-								<blockquote>@ example,<br />more</blockquote>
-
+								<p>Examples, including a gloss and translation,
+								can be created using the (@) syntax from
+								Pandoc.</p>
+								<blockquote>
+									(@) sentence,<br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gloss,<br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;translation<br />
+								</blockquote>
+								<p>The commas following the sentence and gloss
+								must be included. The following is an actual
+								example of this feature:</p>
+								<blockquote>
+									(@) wann-uma maaju-maaju-j ka jinn-u-m,<br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;see.aux-pst
+									kangaroo-pl-nom 2.val.1 eat-an-3rd,<br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The
+									kangaroos ate/were eating.<br />
+								</blockquote>
 							</div>
 						</Tab>
-						<Tab title="Two">Goodbye</Tab>
+
+						<Tab title="Word">
+							<div className="content">
+								<p>To mark a word as a conword, surround it in
+								backticks where it appears in the text.</p>
+								<blockquote>
+									The word `Ngujari`...
+								</blockquote>
+								<p>This enables special formatting of the word,
+								and in the case of HTML output shows its
+								definition when hovered over.</p>
+							</div>
+						</Tab>
+
+						<Tab title="Rule">
+							<div className="content">
+								<p>Rules defining grammatical constructs can be
+								created using a new syntax.</p>
+								<blockquote>
+									(*)label: rule
+								</blockquote>
+								<p>The following is an actual
+								example of this feature:</p>
+								<blockquote>
+									(*)Noun Phrase: np = [adj(s)-attr] n [rel(s)]
+								</blockquote>
+							</div>
+						</Tab>
 					</Tabs>
+
+					<hr />
 
 					<div className="content">
 						<p>In addition, an optional lexicon file can be
