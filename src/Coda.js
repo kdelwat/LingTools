@@ -8,7 +8,7 @@ import StyledForm from './components/StyledForm';
 import Steps, { Step } from './components/Steps';
 import Tabs, { Tab } from './components/Tabs';
 
-const baseServerURL = 'http://127.0.0.1:5000';
+const baseServerURL = 'http://coda.cadelwatson.com';
 
 const metadataSchema = {
 	title: 'Metadata',
@@ -318,7 +318,6 @@ class Coda extends React.Component {
 							to the next step, which will cover input formats.
 						</p>
 						<h3>Output examples</h3>
-						<p>These might be a bit stretched, depending on your screen size.</p>
 						<div className="images">
 							<img src="http://imgur.com/ix0TLvF.png" alt="Example of LaTeX output" />
 							<img src="http://imgur.com/cN4gHMc.png" alt="Example of HTML output" />

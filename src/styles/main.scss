@@ -17,10 +17,8 @@ $primary: $green;
 
 .images {
 	display: flex;
-
-	@media screen and (max-width: $tablet) {
-		flex-direction: column;
-	}
+	flex-direction: column;
+	align-items: center;
 }
 
 .content img {
