@@ -587,9 +587,12 @@ class Coda extends React.Component {
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<div className="content">
 						<p>Choose desired output settings and
-						press <strong>Generate</strong> to create your grammar. You
-						may need to allow pop-ups on this site for the download
-						to work. LaTeX generation will take some time!</p>
+						press <strong>Generate</strong> to create your grammar. LaTeX
+						generation will take some time!</p>
+
+						<p><strong>You may need to allow pop-ups on this site
+						for the download to work.</strong></p>
+
 						<p>The default LaTeX theme is a modified version
 						of <a href="http://www.latextemplates.com/template/the-legrand-orange-book">The
 						Legrand Orange Book</a> from
