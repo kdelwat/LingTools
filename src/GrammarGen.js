@@ -587,10 +587,17 @@ class GrammarGen extends React.Component {
 			<Step advanceCondition>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<div className="content">
-						Choose desired output settings and
+						<p>Choose desired output settings and
 						press <strong>Generate</strong> to create your grammar. You
 						may need to allow pop-ups on this site for the download
-						to work. LaTeX generation will take some time!
+						to work. LaTeX generation will take some time!</p>
+						<p>The default LaTeX theme is modified
+						from <a href="http://www.latextemplates.com/template/the-legrand-orange-book">The
+						Legrand Orange Book</a>
+							from <a href="http://latextemplates.com">this site</a>.
+						It is used under the terms of
+						the <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a> license.
+						</p>
 					</div>
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
