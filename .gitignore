@@ -3,3 +3,4 @@
 *.css.map
 dist/bundle.js
 node_modules/
+*sh
