@@ -160,6 +160,7 @@ class GrammarGen extends React.Component {
 		this.genericFormSubmitted = this.genericFormSubmitted.bind(this);
 		this.markdownFilesFormSubmitted = this.markdownFilesFormSubmitted.bind(this);
 		this.csvFileFormSubmitted = this.csvFileFormSubmitted.bind(this);
+		this.addBlankLexicon = this.addBlankLexicon.bind(this);
 		this.generateFormSubmitted = this.generateFormSubmitted.bind(this);
 		this.updateFiles = this.updateFiles.bind(this);
 
@@ -233,6 +234,19 @@ class GrammarGen extends React.Component {
 
 		request.open('POST', baseServerURL);
 		request.send(data);
+	}
+
+	// Add a blank lexicon file when the user doesn't want one.
+	addBlankLexicon() {
+		// Include just a header string, which the server will ignore.
+		const blankCSVString = 'Conword,Local,Pronunciation,Type,Gender,Definitions';
+
+		this.setState({
+			csv: {
+				name: 'lexicon.csv',
+				blob: new Blob([blankCSVString], { type: 'text/csv' }), // eslint-disable-line no-undef
+			},
+		});
 	}
 
 	genericFormSubmitted(data) {
@@ -436,6 +450,13 @@ class GrammarGen extends React.Component {
 					>
 						<div />
 					</StyledForm>
+
+					<button
+						className="button is-info is-fullwidth"
+						onClick={this.addBlankLexicon}
+					>
+						No lexicon
+					</button>
 				</Block>
 			</Step>
 		);
