@@ -454,8 +454,10 @@ class GrammarGen extends React.Component {
 			<Step advanceCondition>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<div className="content">
-						Choose desired output settings and
-						press <strong>Generate</strong> to create your grammar.
+						Choose desired output settings and press
+						<strong>Generate</strong> to create your grammar. You
+						may need to allow pop-ups on this site for the download
+						to work.
 					</div>
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
