@@ -145,6 +145,7 @@ class GrammarGen extends React.Component {
 		super(props);
 
 		this.state = {
+			isGenerating: false,
 			author: '',
 			grammarTitle: 'My language',
 			grammarSubtitle: 'A descriptive grammar',
@@ -174,6 +175,9 @@ class GrammarGen extends React.Component {
 	generate() {
 		console.log('Generating with the following data: ');
 		console.log(this.state);
+
+		// Display the generating indicator.
+		this.setState({ isGenerating: true });
 
 		const data = new FormData();  // eslint-disable-line no-undef
 
@@ -215,12 +219,15 @@ class GrammarGen extends React.Component {
 		request.onreadystatechange = () => {
 			if (request.readyState === XMLHttpRequest.DONE) { // eslint-disable-line
 
+				// Disable loading indicator
+				this.setState({ isGenerating: false });
+
 				if (request.responseText.startsWith('ERROR')) {
 					addNotification(request.responseText.slice(5), 'error');
+				} else {
+					// After receiving the filename back from the request, download the file.
+					this.download(request.responseText);
 				}
-
-				// After receiving the filename back from the request, download the file.
-				this.download(request.responseText);
 			}
 		};
 
@@ -436,6 +443,13 @@ class GrammarGen extends React.Component {
 	stepGenerate() {
 		let formatSettingsForm = null;
 
+		// Signify loading through button styling
+		let buttonClass = 'button is-success';
+
+		if (this.state.isGenerating) {
+			buttonClass += ' is-loading';
+		}
+
 		if (this.state.format) {
 			const formatSettingsSchema = availableFormatSchemas[this.state.format];
 			formatSettingsForm = (
@@ -445,7 +459,7 @@ class GrammarGen extends React.Component {
 					formData={this.state}
 				>
 					<div>
-						<button type="submit" className="button is-success">Generate</button>
+						<button type="submit" className={buttonClass}>Generate</button>
 					</div>
 				</StyledForm>);
 		}
@@ -454,10 +468,10 @@ class GrammarGen extends React.Component {
 			<Step advanceCondition>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<div className="content">
-						Choose desired output settings and press
-						<strong>Generate</strong> to create your grammar. You
+						Choose desired output settings and
+						press <strong>Generate</strong> to create your grammar. You
 						may need to allow pop-ups on this site for the download
-						to work.
+						to work. LaTeX generation will take some time!
 					</div>
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
