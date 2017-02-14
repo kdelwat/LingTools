@@ -148,7 +148,7 @@ class GrammarGen extends React.Component {
 			isGenerating: false,
 			author: '',
 			grammarTitle: 'My language',
-			grammarSubtitle: 'A descriptive grammar',
+			grammarSubtitle: 'A descriptive grammar and lexicon',
 			files: [],
 			csvColumnWord: 1,
 			csvColumnLocal: 2,
