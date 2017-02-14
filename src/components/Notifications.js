@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+// The time in milliseconds that a notification will appear for.
+const lifespan = 5000;
+
 const classes = {
 	success: 'is-success',
 	error: 'is-danger',
@@ -8,17 +11,36 @@ const classes = {
 	info: 'is-info',
 };
 
-function Notification(props) {
-	const className = 'notification ' + classes[props.type];
-	return (
-		<div className={className}>
-			<button
-				className="delete"
-				onClick={() => ReactDOM.unmountComponentAtNode(props.container)}
-			/>
-			{props.message}
-		</div>
-	);
+class Notification extends React.Component {
+	constructor(props) {
+		super(props);
+		this.selfDestruct = this.selfDestruct.bind(this);
+	}
+
+	// When mounted, set a timer to destroy the notification after a given
+	// time.
+	componentDidMount() {
+		setTimeout(this.selfDestruct, lifespan);
+	}
+
+	// Destroy the notification by unmounting it.
+	selfDestruct() {
+		ReactDOM.unmountComponentAtNode(this.props.container);
+	}
+
+	render() {
+		const className = 'notification ' + classes[this.props.type];
+
+		return (
+			<div className={className}>
+				<button
+					className="delete"
+					onClick={this.selfDestruct}
+				/>
+				{this.props.message}
+			</div>
+		);
+	}
 }
 
 export function NotificationArea() {

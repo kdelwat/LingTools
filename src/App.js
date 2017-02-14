@@ -4,7 +4,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import './styles/main.scss';
 
 import Home from './Home';
-import GrammarGen from './GrammarGen';
+import Coda from './Coda';
 import NavigationBar from './components/NavigationBar';
 
 const App = () => (
@@ -13,7 +13,7 @@ const App = () => (
 	<Router key={Math.random()} history={browserHistory}>
 		<Route path="/" component={NavigationContainer}>
 			<IndexRoute component={Home} />
-			<Route path="grammargen" component={GrammarGen} />
+			<Route path="Coda" component={Coda} />
 		</Route>
 	</Router>
 );
@@ -24,7 +24,7 @@ function NavigationContainer(props) {
 			<NavigationBar
 				url={props.location.pathname}
 				links={[
-					{ url: '/grammargen', text: 'GrammarGen' },
+					{ url: '/coda', text: 'Coda' },
 				]}
 			/>
 

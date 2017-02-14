@@ -9,6 +9,23 @@
 	font-size: 18px;
 }
 
+// Image styling
+
+.images {
+	display: flex;
+
+	@media screen and (max-width: $tablet) {
+		flex-direction: column;
+	}
+}
+
+
+.content img {
+	margin: 50px;
+	border: 1px solid $grey-lighter;
+	display: block;
+}
+
 // OrderableListView styles
 .orderable-list-header {
 	display: flex;

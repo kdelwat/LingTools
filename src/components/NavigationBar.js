@@ -27,7 +27,7 @@ function NavigationBar(props) {
 		<div>
 			<nav className="nav has-shadow">
 				<div className="nav-left">
-					<Link className="nav-item is-home" key={'/'} to={'/'}>SMOOTHIE</Link>
+					<Link className="nav-item is-home" key={'/'} to={'/'}>LINGTOOLS</Link>
 				</div>
 
 				<div className="nav-right">

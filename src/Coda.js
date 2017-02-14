@@ -140,14 +140,15 @@ const CSVSettingsSchema = {
 
 const validFileTypes = ['text/plain', 'text/markdown'];
 
-class GrammarGen extends React.Component {
+class Coda extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
+			isGenerating: false,
 			author: '',
 			grammarTitle: 'My language',
-			grammarSubtitle: 'A descriptive grammar',
+			grammarSubtitle: 'A descriptive grammar and lexicon',
 			files: [],
 			csvColumnWord: 1,
 			csvColumnLocal: 2,
@@ -159,6 +160,7 @@ class GrammarGen extends React.Component {
 		this.genericFormSubmitted = this.genericFormSubmitted.bind(this);
 		this.markdownFilesFormSubmitted = this.markdownFilesFormSubmitted.bind(this);
 		this.csvFileFormSubmitted = this.csvFileFormSubmitted.bind(this);
+		this.addBlankLexicon = this.addBlankLexicon.bind(this);
 		this.generateFormSubmitted = this.generateFormSubmitted.bind(this);
 		this.updateFiles = this.updateFiles.bind(this);
 
@@ -174,6 +176,9 @@ class GrammarGen extends React.Component {
 	generate() {
 		console.log('Generating with the following data: ');
 		console.log(this.state);
+
+		// Display the generating indicator.
+		this.setState({ isGenerating: true });
 
 		const data = new FormData();  // eslint-disable-line no-undef
 
@@ -215,17 +220,33 @@ class GrammarGen extends React.Component {
 		request.onreadystatechange = () => {
 			if (request.readyState === XMLHttpRequest.DONE) { // eslint-disable-line
 
+				// Disable loading indicator
+				this.setState({ isGenerating: false });
+
 				if (request.responseText.startsWith('ERROR')) {
 					addNotification(request.responseText.slice(5), 'error');
+				} else {
+					// After receiving the filename back from the request, download the file.
+					this.download(request.responseText);
 				}
-
-				// After receiving the filename back from the request, download the file.
-				this.download(request.responseText);
 			}
 		};
 
 		request.open('POST', baseServerURL);
 		request.send(data);
+	}
+
+	// Add a blank lexicon file when the user doesn't want one.
+	addBlankLexicon() {
+		// Include just a header string, which the server will ignore.
+		const blankCSVString = 'Conword,Local,Pronunciation,Type,Gender,Definitions';
+
+		this.setState({
+			csv: {
+				name: 'lexicon.csv',
+				blob: new Blob([blankCSVString], { type: 'text/csv' }), // eslint-disable-line no-undef
+			},
+		});
 	}
 
 	genericFormSubmitted(data) {
@@ -276,18 +297,52 @@ class GrammarGen extends React.Component {
 		this.setState({ files });
 	}
 
+	stepWelcome() {
+		return (
+			<Step advanceCondition>
+				<Block width={'100%'}>
+					<div className="content">
+						<h3>Introduction</h3>
+						<p>
+							Coda is a simple tool which
+							helps with the creation of professional-looking
+							language reference grammars from sources written in
+							an extended version
+							of <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>.
+							Currently, both interactive HTML and PDF outputs
+							are supported. A lexicon file can also be provided
+							to include a translation dictionary in the output!
+						</p>
+						<p>
+							To continue, press <strong>Next</strong> to advance
+							to the next step, which will cover input formats.
+						</p>
+						<h3>Output examples</h3>
+						<p>These might be a bit stretched, depending on your screen size.</p>
+						<div className="images">
+							<img src="http://imgur.com/ix0TLvF.png" alt="Example of LaTeX output" />
+							<img src="http://imgur.com/cN4gHMc.png" alt="Example of HTML output" />
+						</div>
+					</div>
+				</Block>
+			</Step>
+		);
+	}
+
 	stepIntroduction() {
 		return (
 			<Step advanceCondition>
 				<Block width={'100%'} mobileWidth={'100%'}>
 					<div className="content">
-						<h3>Introduction</h3>
-						<p>GrammarGen requires its input to be in a specific
+						<h3>Input formats</h3>
+						<p>Coda requires its input to be in a specific
 						format in order to correctly output a grammar. The main
-						input is any number of Markdown files. The top-level heading of
-						each file (e.g. marked with <code>#</code>) should be the
-						title of the chapter. A simple example would look like
-						the following:</p>
+						input is any number of Markdown files, each
+						representing a chapter. The top-level heading of each
+						file (e.g. marked with <code>#</code>) should be the
+						title of the chapter. A simple example of a syntax
+						chapter would look like the following:</p>
+
 						<blockquote>
 							# Syntax<br /><br />
 
@@ -296,14 +351,87 @@ class GrammarGen extends React.Component {
 							## Alignment<br /><br />
 
 							The language has an ergative-absolutive alignment.<br />
-						</blockquote><br />
+						</blockquote>
+
+						<p>Input files support all features
+						of <a href="http://pandoc.org/MANUAL.html">Pandoc
+						Markdown</a>, including embedding web images, as well as a number
+						of custom linguistics features:</p>
+					</div>
+
+					<Tabs>
+						<Tab title="Example">
+							<div className="content">
+								<p>Examples, including a gloss and translation,
+								can be created using the (@) syntax from
+								Pandoc.</p>
+								<blockquote>
+									(@) sentence,<br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gloss,<br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;translation<br />
+								</blockquote>
+								<p>The commas following the sentence and gloss
+								must be included. The following is an actual
+								example of this feature:</p>
+								<blockquote>
+									(@) wann-uma maaju-maaju-j ka jinn-u-m,<br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;see.aux-pst
+									kangaroo-pl-nom 2.val.1 eat-an-3rd,<br />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The
+									kangaroos ate/were eating.<br />
+								</blockquote>
+							</div>
+						</Tab>
+
+						<Tab title="Word">
+							<div className="content">
+								<p>To mark a word as a conword, surround it in
+								backticks where it appears in the text.</p>
+								<blockquote>
+									The word `Ngujari`...
+								</blockquote>
+								<p>This enables special formatting of the word,
+								and in the case of HTML output shows its
+								definition when hovered over.</p>
+							</div>
+						</Tab>
+
+						<Tab title="Rule">
+							<div className="content">
+								<p>Rules defining grammatical constructs can be
+								created using a new syntax.</p>
+								<blockquote>
+									(*)label: rule
+								</blockquote>
+								<p>The following is an actual
+								example of this feature:</p>
+								<blockquote>
+									(*)Noun Phrase: np = [adj(s)-attr] n [rel(s)]
+								</blockquote>
+							</div>
+						</Tab>
+					</Tabs>
+
+					<hr />
+
+					<div className="content">
 						<p>In addition, an optional lexicon file can be
 						supplied in CSV format, which will be converted into a
 						dictionary reference (and in the case of HTML output,
-						hoverable definitions!).</p>
+						hoverable definitions!). This can be exported from
+						Excel or Libreoffice Calc. While the exact columns of
+						the file can be adjusted later in the process, an
+						example would look like the following:</p>
+
+						<blockquote>
+							Conword,Local,Pronunciation,Type,Gender,Definitions<br />
+							bunn,to shine,buːnn,verb,,&quot;To shine as in: The sun shines.&quot;<br />
+							bilj,to hop,biːlj,verb,,&quot;Used when referring to kangaroos.&quot;<br />
+							bilru,seal,biːlru,noun,animate,&quot;Can also refer to a specific totem.&quot;<br />
+						</blockquote>
 					</div>
 				</Block>
-			</Step>
+			</Step >
 		);
 	}
 
@@ -314,20 +442,15 @@ class GrammarGen extends React.Component {
 					<div className="content">
 						Select any number of Markdown files with the button to
 						the right. They can be re-ordered in the next step.
-						Once you have selected all the desired files,
-						press <strong>Validate</strong> to ensure they are the correct
-						filetype, then proceed to the next step.
 					</div>
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<StyledForm
 						schema={markdownFilesSchema}
-						onSubmit={this.markdownFilesFormSubmitted}
+						onChange={this.markdownFilesFormSubmitted}
 						className="file-selector"
 					>
-						<div>
-							<button type="submit" className="button is-info">Validate</button>
-						</div>
+						<div />
 					</StyledForm>
 				</Block>
 			</Step>
@@ -362,23 +485,28 @@ class GrammarGen extends React.Component {
 			<Step advanceCondition={this.state.csv}>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<div className="content">
-						Select a CSV file using the input to the right.
-						Once you have selected the file,
-						press <strong>Validate</strong> to ensure the filetype is
-						correct, then proceed to the next step.
-
+						Select a CSV file containing your lexicon using the
+						input to the right. The columns corresponding to each
+						part of the definition can be changed in the next step.
+						The first row will be skipped, so headers should be at
+						the top of the file.
 					</div>
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<StyledForm
 						schema={CSVFileSchema}
-						onSubmit={this.csvFileFormSubmitted}
+						onChange={this.csvFileFormSubmitted}
 						className="file-selector"
 					>
-						<div>
-							<button type="submit" className="button is-info">Validate</button>
-						</div>
+						<div />
 					</StyledForm>
+
+					<button
+						className="button is-info is-fullwidth"
+						onClick={this.addBlankLexicon}
+					>
+						No lexicon
+					</button>
 				</Block>
 			</Step>
 		);
@@ -421,12 +549,10 @@ class GrammarGen extends React.Component {
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<StyledForm
 						schema={metadataSchema}
-						onSubmit={this.genericFormSubmitted}
+						onChange={this.genericFormSubmitted}
 						formData={this.state}
 					>
-						<div>
-							<button type="submit" className="button is-info">Validate</button>
-						</div>
+						<div />
 					</StyledForm>
 				</Block>
 			</Step>
@@ -435,6 +561,13 @@ class GrammarGen extends React.Component {
 
 	stepGenerate() {
 		let formatSettingsForm = null;
+
+		// Signify loading through button styling
+		let buttonClass = 'button is-success';
+
+		if (this.state.isGenerating) {
+			buttonClass += ' is-loading';
+		}
 
 		if (this.state.format) {
 			const formatSettingsSchema = availableFormatSchemas[this.state.format];
@@ -445,7 +578,7 @@ class GrammarGen extends React.Component {
 					formData={this.state}
 				>
 					<div>
-						<button type="submit" className="button is-success">Generate</button>
+						<button type="submit" className={buttonClass}>Generate</button>
 					</div>
 				</StyledForm>);
 		}
@@ -454,8 +587,17 @@ class GrammarGen extends React.Component {
 			<Step advanceCondition>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<div className="content">
-						Choose desired output settings and
-						press <strong>Generate</strong> to create your grammar.
+						<p>Choose desired output settings and
+						press <strong>Generate</strong> to create your grammar. You
+						may need to allow pop-ups on this site for the download
+						to work. LaTeX generation will take some time!</p>
+						<p>The default LaTeX theme is modified
+						from <a href="http://www.latextemplates.com/template/the-legrand-orange-book">The
+						Legrand Orange Book</a>
+							from <a href="http://latextemplates.com">this site</a>.
+						It is used under the terms of
+						the <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a> license.
+						</p>
 					</div>
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
@@ -476,28 +618,9 @@ class GrammarGen extends React.Component {
 		return (
 			<Container>
 				<NotificationArea />
-				<Block width={'100%'}>
-					<div className="content">
-						<p>
-							<strong>GrammarGen</strong> is a simple tool allowing the creation of professional-looking language reference grammars from Markdown source. It supports all features of <a href="http://pandoc.org/MANUAL.html">Pandoc Markdown</a> as well as custom linguistics features, which are shown below.
-						</p>
-
-					</div>
-					<Tabs>
-						<Tab title="One">
-							<div className="content">
-								<p>This is an example feature. It does stuff, in the format:</p>
-								<blockquote>@ example,<br />more</blockquote>
-
-							</div>
-						</Tab>
-						<Tab title="Two">Goodbye</Tab>
-					</Tabs>
-					{JSON.stringify(this.state)}
-				</Block>
-
 				<Steps
 					steps={[
+						this.stepWelcome(),
 						this.stepIntroduction(),
 						this.stepMarkdownFiles(),
 						this.stepOrderFiles(),
@@ -511,4 +634,4 @@ class GrammarGen extends React.Component {
 	}
 }
 
-export default GrammarGen;
+export default Coda;
