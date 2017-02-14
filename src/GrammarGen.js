@@ -355,8 +355,8 @@ class GrammarGen extends React.Component {
 
 						<p>Input files support all features
 						of <a href="http://pandoc.org/MANUAL.html">Pandoc
-						Markdown</a> as well as a number of custom linguistics
-						features:</p>
+						Markdown</a>, including embedding web images, as well as a number
+						of custom linguistics features:</p>
 					</div>
 
 					<Tabs>
