@@ -46,12 +46,12 @@ const formatSchema = {
 const latexSettingsSchema = {
 	title: 'LaTeX settings',
 	type: 'object',
-	required: ['theme'],
+	required: ['layout'],
 	properties: {
-		theme: {
-			title: 'Theme',
+		layout: {
+			title: 'Paper size',
 			type: 'string',
-			enum: ['Default'],
+			enum: ['A4', 'A5'],
 		},
 	},
 };
@@ -184,6 +184,7 @@ class GrammarGen extends React.Component {
 			'author',
 			'format',
 			'theme',
+			'layout',
 			'csvColumnWord',
 			'csvColumnLocal',
 			'csvColumnDefinition',
@@ -213,6 +214,11 @@ class GrammarGen extends React.Component {
 		// Set a listener to trigger when the POST request is finished.
 		request.onreadystatechange = () => {
 			if (request.readyState === XMLHttpRequest.DONE) { // eslint-disable-line
+
+				if (request.responseText.startsWith('ERROR')) {
+					addNotification(request.responseText.slice(5), 'error');
+				}
+
 				// After receiving the filename back from the request, download the file.
 				this.download(request.responseText);
 			}
