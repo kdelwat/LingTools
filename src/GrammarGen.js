@@ -422,7 +422,10 @@ class GrammarGen extends React.Component {
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<div className="content">
 						Select a CSV file containing your lexicon using the
-						input to the right.
+						input to the right. The columns corresponding to each
+						part of the definition can be changed in the next step.
+						The first row will be skipped, so headers should be at
+						the top of the file.
 					</div>
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
