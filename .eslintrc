@@ -3,7 +3,11 @@
 	"rules": {
 		"react/jsx-filename-extension": "off",
 		"no-use-before-define": "off",
+		"react/prop-types": "off",
 		"no-tabs": "off",
+		"no-console": "off",
+		"prefer-template": "off",
+		"class-methods-use-this": "off",
 		"import/no-extraneous-dependencies": "off",
 		"indent": [
 			"error",
@@ -12,6 +16,11 @@
 		"react/jsx-indent": [
 			"error",
 			"tab"
-		]
+		],
+		"react/jsx-indent-props": [
+			"error",
+			"tab"
+		],
+		"jsx-a11y/no-static-element-interactions": "off"
 	}
 }

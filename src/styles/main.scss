@@ -1,0 +1,228 @@
+@import "~bulma";
+
+.nav svg {
+	width: 35px;
+	height: 35px;
+}
+
+.is-home {
+	font-size: 18px;
+}
+
+// Image styling
+
+.images {
+	display: flex;
+
+	@media screen and (max-width: $tablet) {
+		flex-direction: column;
+	}
+}
+
+
+.content img {
+	margin: 50px;
+	border: 1px solid $grey-lighter;
+	display: block;
+}
+
+// OrderableListView styles
+.orderable-list-header {
+	display: flex;
+	align-items: center;
+	padding-bottom: 0.5em;
+}
+
+.orderable-list-title {
+	flex: 1;
+	font-size: $size-5;
+}
+
+.orderable-list-body .icon {
+	color: $text;
+}
+
+.orderable-list-left {
+	flex: 1;
+}
+
+// Grid settings
+$gutter: 40px;
+
+.block {
+	padding: $gutter / 2;
+	margin: 0 !important;
+	box-sizing: border-box;
+}
+
+.block-container {
+	padding: $gutter / 2;
+
+	display: flex;
+	flex-wrap: wrap;
+
+	background-color: $background;
+}
+
+// Forms
+fieldset {
+	border: none;
+}
+
+input {
+	@extend .input;
+}
+
+select {
+	@extend .select;
+}
+
+.btn {
+	@extend .button;
+}
+
+.btn-info {
+	@extend .is-info;
+}
+
+// Forms
+
+.form-row {
+	margin-bottom: 1em;
+}
+
+.form-title {
+	font-size: $size-5;
+}
+
+.label:first-child {
+	margin-top: 1em;
+}
+
+.form-help {
+	position: relative;
+	padding-left: 5px;
+}
+
+.form-help .icon {
+	height: 1em;
+	width: 1em;
+}
+
+.form-help .help-message {
+	display: none;
+}
+
+.form-help:hover .help-message {
+	display: block;
+	position: absolute;
+    left: -140px;
+    bottom: 110%;
+    z-index: 2;
+    width: 300px;
+    text-align: left;
+	font-weight: normal;
+}
+
+// File selector form
+
+form.file-selector {
+	label.label {
+		@extend .button;
+		font-weight: normal;
+		width: 100%;
+	}
+
+	.control {
+		p {
+			display: none;
+		}
+		ul {
+			display: block;
+		}
+	}
+}
+
+// Notifications
+.notification {
+	position: fixed;
+	right: 0;
+	top: 0;
+	margin-right: 1em;
+	margin-top: 1em;
+	z-index: 2;
+
+	animation: wiggle 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1 normal;
+}
+
+@keyframes wiggle {
+	0% {
+		transform: scale(1.2, 1.2);
+	}
+	10% {
+		transform: translateY(1px) scale(1.1, 1.1);
+	};
+	20% {
+		transform: translateY(-1px) scale(1, 1);
+	};
+	30%, 70% {
+		transform: translateY(2px);
+	};
+	40%, 80% {
+		transform: translateY(-2px);
+	};
+	50%{
+		transform: translateY(2px);
+	};
+	60%{
+		transform: translateY(-2px);
+	};
+	90% {
+		transform: translateY(1px);
+	};
+}
+
+@keyframes zoom-in {
+	0% {
+		transform: scale(1.2, 1.2);
+	}
+	100% {
+		transform: scale(1, 1);
+	}
+}
+
+// Steps
+
+.outer-step {
+	width: 100%;
+}
+
+.step-progress {
+	padding: 0px 20px;
+}
+
+.progress {
+	transition: 1s;
+}
+
+.inner-step {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.step-buttons {
+	display: flex;
+	justify-content: space-between;
+}
+
+//Tabs
+
+.tabs:not(:last-child) {
+	margin-bottom: 1rem;
+}
+
+.tab-body {
+	margin-bottom: 1rem;
+	padding: 0px 14px;
+}
