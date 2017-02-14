@@ -1,3 +1,7 @@
+$green: #4caf50;
+$blue: #1565c0;
+$primary: $green;
+
 @import "~bulma";
 
 .nav svg {
@@ -18,7 +22,6 @@
 		flex-direction: column;
 	}
 }
-
 
 .content img {
 	margin: 50px;
