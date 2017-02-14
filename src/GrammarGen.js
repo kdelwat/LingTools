@@ -321,20 +321,15 @@ class GrammarGen extends React.Component {
 					<div className="content">
 						Select any number of Markdown files with the button to
 						the right. They can be re-ordered in the next step.
-						Once you have selected all the desired files,
-						press <strong>Validate</strong> to ensure they are the correct
-						filetype, then proceed to the next step.
 					</div>
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<StyledForm
 						schema={markdownFilesSchema}
-						onSubmit={this.markdownFilesFormSubmitted}
+						onChange={this.markdownFilesFormSubmitted}
 						className="file-selector"
 					>
-						<div>
-							<button type="submit" className="button is-info">Validate</button>
-						</div>
+						<div />
 					</StyledForm>
 				</Block>
 			</Step>
@@ -369,22 +364,17 @@ class GrammarGen extends React.Component {
 			<Step advanceCondition={this.state.csv}>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<div className="content">
-						Select a CSV file using the input to the right.
-						Once you have selected the file,
-						press <strong>Validate</strong> to ensure the filetype is
-						correct, then proceed to the next step.
-
+						Select a CSV file containing your lexicon using the
+						input to the right.
 					</div>
 				</Block>
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<StyledForm
 						schema={CSVFileSchema}
-						onSubmit={this.csvFileFormSubmitted}
+						onChange={this.csvFileFormSubmitted}
 						className="file-selector"
 					>
-						<div>
-							<button type="submit" className="button is-info">Validate</button>
-						</div>
+						<div />
 					</StyledForm>
 				</Block>
 			</Step>
@@ -428,12 +418,10 @@ class GrammarGen extends React.Component {
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<StyledForm
 						schema={metadataSchema}
-						onSubmit={this.genericFormSubmitted}
+						onChange={this.genericFormSubmitted}
 						formData={this.state}
 					>
-						<div>
-							<button type="submit" className="button is-info">Validate</button>
-						</div>
+						<div />
 					</StyledForm>
 				</Block>
 			</Step>
