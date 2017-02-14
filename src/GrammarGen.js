@@ -8,6 +8,8 @@ import StyledForm from './components/StyledForm';
 import Steps, { Step } from './components/Steps';
 import Tabs, { Tab } from './components/Tabs';
 
+const baseServerURL = 'http://127.0.0.1:5000';
+
 const metadataSchema = {
 	title: 'Metadata',
 	type: 'object',
@@ -44,12 +46,12 @@ const formatSchema = {
 const latexSettingsSchema = {
 	title: 'LaTeX settings',
 	type: 'object',
-	required: ['theme'],
+	required: ['layout'],
 	properties: {
-		theme: {
-			title: 'Theme',
+		layout: {
+			title: 'Paper size',
 			type: 'string',
-			enum: ['Default'],
+			enum: ['A4', 'A5'],
 		},
 	},
 };
@@ -100,6 +102,42 @@ const CSVFileSchema = {
 	},
 };
 
+const CSVSettingsSchema = {
+	title: 'Lexicon columns',
+	type: 'object',
+	required: ['csvColumnWord', 'csvColumnLocal', 'csvColumnDefinition', 'csvColumnPronunciation', 'csvColumnPartOfSpeech'],
+	properties: {
+		csvColumnWord: {
+			type: 'integer',
+			title: 'Con-word',
+			minimum: 1,
+		},
+		csvColumnLocal: {
+			type: 'integer',
+			title: 'Local word',
+			minimum: 1,
+
+		},
+		csvColumnDefinition: {
+			type: 'integer',
+			title: 'Definition',
+			minimum: 1,
+
+		},
+		csvColumnPronunciation: {
+			type: 'integer',
+			title: 'Pronunciation',
+			minimum: 1,
+
+		},
+		csvColumnPartOfSpeech: {
+			type: 'integer',
+			title: 'Part of speech',
+			minimum: 1,
+		},
+	},
+};
+
 const validFileTypes = ['text/plain', 'text/markdown'];
 
 class GrammarGen extends React.Component {
@@ -111,6 +149,11 @@ class GrammarGen extends React.Component {
 			grammarTitle: 'My language',
 			grammarSubtitle: 'A descriptive grammar',
 			files: [],
+			csvColumnWord: 1,
+			csvColumnLocal: 2,
+			csvColumnDefinition: 6,
+			csvColumnPronunciation: 3,
+			csvColumnPartOfSpeech: 4,
 		};
 
 		this.genericFormSubmitted = this.genericFormSubmitted.bind(this);
@@ -122,9 +165,67 @@ class GrammarGen extends React.Component {
 		this.generate = this.generate.bind(this);
 	}
 
+	// Given a relative filename, download the file by making a GET request to the server.
+	download(filename) {
+		window.open(baseServerURL + '/download?filename=' + filename, 'downloadFileWindow'); // eslint-disable-line no-undef
+	}
+
+	// Place all current settings and files into a FormData object and send it to the server.
 	generate() {
 		console.log('Generating with the following data: ');
 		console.log(this.state);
+
+		const data = new FormData();  // eslint-disable-line no-undef
+
+		// An array of settings which should be sent to the server if available.
+		const availableSettings = [
+			'grammarTitle',
+			'grammarSubtitle',
+			'author',
+			'format',
+			'theme',
+			'layout',
+			'csvColumnWord',
+			'csvColumnLocal',
+			'csvColumnDefinition',
+			'csvColumnPronunciation',
+			'csvColumnPartOfSpeech',
+		];
+
+		// Loop through these available settings and add those present in the
+		// current state to the FormData object.
+		availableSettings.map((setting) => { // eslint-disable-line
+			if (this.state[setting]) {
+				data.append(setting, this.state[setting]);
+			}
+		});
+
+		// Add each Markdown file to the FormData, using its filename prepended with a unique
+		// index to prevent collisions.
+		this.state.files.map((fileObject, index) =>
+			data.append(index + fileObject.name, fileObject.blob));
+
+		// Add the CSV file to the FormData, with its filename as the key.
+		data.append(this.state.csv.name, this.state.csv.blob);
+
+		// Post the data to the server endpoint.
+		const request = new XMLHttpRequest(); // eslint-disable-line no-undef
+
+		// Set a listener to trigger when the POST request is finished.
+		request.onreadystatechange = () => {
+			if (request.readyState === XMLHttpRequest.DONE) { // eslint-disable-line
+
+				if (request.responseText.startsWith('ERROR')) {
+					addNotification(request.responseText.slice(5), 'error');
+				}
+
+				// After receiving the filename back from the request, download the file.
+				this.download(request.responseText);
+			}
+		};
+
+		request.open('POST', baseServerURL);
+		request.send(data);
 	}
 
 	genericFormSubmitted(data) {
@@ -283,6 +384,31 @@ class GrammarGen extends React.Component {
 		);
 	}
 
+	stepCSVColumns() {
+		return (
+			<Step advanceCondition>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<div className="content">
+						If needed, change the columns in the CSV file that
+						correspond to each part of the word definitions. The
+						first column is number 1. Make sure that the columns
+						are all different!
+					</div>
+				</Block>
+				<Block width={'50%'} mobileWidth={'100%'}>
+					<StyledForm
+						schema={CSVSettingsSchema}
+						liveValidate
+						onChange={this.genericFormSubmitted}
+						formData={this.state}
+					>
+						<div />
+					</StyledForm>
+				</Block>
+			</Step>
+		);
+	}
+
 	stepMetadata() {
 		return (
 			<Step advanceCondition={this.state.author.length > 0 && this.state.grammarTitle.length > 0}>
@@ -376,6 +502,7 @@ class GrammarGen extends React.Component {
 						this.stepMarkdownFiles(),
 						this.stepOrderFiles(),
 						this.stepCSVFile(),
+						this.stepCSVColumns(),
 						this.stepMetadata(),
 						this.stepGenerate()]}
 				/>
