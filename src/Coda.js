@@ -140,7 +140,7 @@ const CSVSettingsSchema = {
 
 const validFileTypes = ['text/plain', 'text/markdown'];
 
-class GrammarGen extends React.Component {
+class Coda extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -304,7 +304,7 @@ class GrammarGen extends React.Component {
 					<div className="content">
 						<h3>Introduction</h3>
 						<p>
-							GrammarGen is a simple tool which
+							Coda is a simple tool which
 							helps with the creation of professional-looking
 							language reference grammars from sources written in
 							an extended version
@@ -335,7 +335,7 @@ class GrammarGen extends React.Component {
 				<Block width={'100%'} mobileWidth={'100%'}>
 					<div className="content">
 						<h3>Input formats</h3>
-						<p>GrammarGen requires its input to be in a specific
+						<p>Coda requires its input to be in a specific
 						format in order to correctly output a grammar. The main
 						input is any number of Markdown files, each
 						representing a chapter. The top-level heading of each
@@ -634,4 +634,4 @@ class GrammarGen extends React.Component {
 	}
 }
 
-export default GrammarGen;
+export default Coda;
