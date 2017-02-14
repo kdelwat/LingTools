@@ -8,7 +8,7 @@ import StyledForm from './components/StyledForm';
 import Steps, { Step } from './components/Steps';
 import Tabs, { Tab } from './components/Tabs';
 
-const baseServerURL = 'http://127.0.0.1:5000';
+const baseServerURL = 'http://coda.cadelwatson.com';
 
 const metadataSchema = {
 	title: 'Metadata',
@@ -318,7 +318,6 @@ class Coda extends React.Component {
 							to the next step, which will cover input formats.
 						</p>
 						<h3>Output examples</h3>
-						<p>These might be a bit stretched, depending on your screen size.</p>
 						<div className="images">
 							<img src="http://imgur.com/ix0TLvF.png" alt="Example of LaTeX output" />
 							<img src="http://imgur.com/cN4gHMc.png" alt="Example of HTML output" />
@@ -588,9 +587,12 @@ class Coda extends React.Component {
 				<Block width={'50%'} mobileWidth={'100%'}>
 					<div className="content">
 						<p>Choose desired output settings and
-						press <strong>Generate</strong> to create your grammar. You
-						may need to allow pop-ups on this site for the download
-						to work. LaTeX generation will take some time!</p>
+						press <strong>Generate</strong> to create your grammar. LaTeX
+						generation will take some time!</p>
+
+						<p><strong>You may need to allow pop-ups on this site
+						for the download to work.</strong></p>
+
 						<p>The default LaTeX theme is a modified version
 						of <a href="http://www.latextemplates.com/template/the-legrand-orange-book">The
 						Legrand Orange Book</a> from
