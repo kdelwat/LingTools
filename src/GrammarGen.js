@@ -317,6 +317,12 @@ class GrammarGen extends React.Component {
 							To continue, press <strong>Next</strong> to advance
 							to the next step, which will cover input formats.
 						</p>
+						<h3>Output examples</h3>
+						<p>These might be a bit stretched, depending on your screen size.</p>
+						<div className="images">
+							<img src="http://imgur.com/ix0TLvF.png" alt="Example of LaTeX output" />
+							<img src="http://imgur.com/cN4gHMc.png" alt="Example of HTML output" />
+						</div>
 					</div>
 				</Block>
 			</Step>
