@@ -591,10 +591,10 @@ class Coda extends React.Component {
 						press <strong>Generate</strong> to create your grammar. You
 						may need to allow pop-ups on this site for the download
 						to work. LaTeX generation will take some time!</p>
-						<p>The default LaTeX theme is modified
-						from <a href="http://www.latextemplates.com/template/the-legrand-orange-book">The
-						Legrand Orange Book</a>
-							from <a href="http://latextemplates.com">this site</a>.
+						<p>The default LaTeX theme is a modified version
+						of <a href="http://www.latextemplates.com/template/the-legrand-orange-book">The
+						Legrand Orange Book</a> from
+						<a href="http://latextemplates.com">this site</a>.
 						It is used under the terms of
 						the <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a> license.
 						</p>
