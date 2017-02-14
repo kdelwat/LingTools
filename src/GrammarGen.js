@@ -283,18 +283,46 @@ class GrammarGen extends React.Component {
 		this.setState({ files });
 	}
 
+	stepWelcome() {
+		return (
+			<Step advanceCondition>
+				<Block width={'100%'}>
+					<div className="content">
+						<h3>Introduction</h3>
+						<p>
+							GrammarGen is a simple tool which
+							helps with the creation of professional-looking
+							language reference grammars from sources written in
+							an extended version
+							of <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a>.
+							Currently, both interactive HTML and PDF outputs
+							are supported. A lexicon file can also be provided
+							to include a translation dictionary in the output!
+						</p>
+						<p>
+							To continue, press <strong>Next</strong> to advance
+							to the next step, which will cover input formats.
+						</p>
+					</div>
+				</Block>
+			</Step>
+		);
+	}
+
 	stepIntroduction() {
 		return (
 			<Step advanceCondition>
 				<Block width={'100%'} mobileWidth={'100%'}>
 					<div className="content">
-						<h3>Introduction</h3>
+						<h3>Input formats</h3>
 						<p>GrammarGen requires its input to be in a specific
 						format in order to correctly output a grammar. The main
-						input is any number of Markdown files. The top-level heading of
-						each file (e.g. marked with <code>#</code>) should be the
-						title of the chapter. A simple example would look like
-						the following:</p>
+						input is any number of Markdown files, each
+						representing a chapter. The top-level heading of each
+						file (e.g. marked with <code>#</code>) should be the
+						title of the chapter. A simple example of a syntax
+						chapter would look like the following:</p>
+
 						<blockquote>
 							# Syntax<br /><br />
 
@@ -303,14 +331,43 @@ class GrammarGen extends React.Component {
 							## Alignment<br /><br />
 
 							The language has an ergative-absolutive alignment.<br />
-						</blockquote><br />
+						</blockquote>
+
+						<p>Input files support all features
+						of <a href="http://pandoc.org/MANUAL.html">Pandoc
+						Markdown</a> as well as a number of custom linguistics
+						features:</p>
+					</div>
+
+					<Tabs>
+						<Tab title="One">
+							<div className="content">
+								<p>This is an example feature. It does stuff, in the format:</p>
+								<blockquote>@ example,<br />more</blockquote>
+
+							</div>
+						</Tab>
+						<Tab title="Two">Goodbye</Tab>
+					</Tabs>
+
+					<div className="content">
 						<p>In addition, an optional lexicon file can be
 						supplied in CSV format, which will be converted into a
 						dictionary reference (and in the case of HTML output,
-						hoverable definitions!).</p>
+						hoverable definitions!). This can be exported from
+						Excel or Libreoffice Calc. While the exact columns of
+						the file can be adjusted later in the process, an
+						example would look like the following:</p>
+
+						<blockquote>
+							Conword,Local,Pronunciation,Type,Gender,Definitions<br />
+							bunn,to shine,buːnn,verb,,&quot;To shine as in: The sun shines.&quot;<br />
+							bilj,to hop,biːlj,verb,,&quot;Used when referring to kangaroos.&quot;<br />
+							bilru,seal,biːlru,noun,animate,&quot;Can also refer to a specific totem.&quot;<br />
+						</blockquote>
 					</div>
 				</Block>
-			</Step>
+			</Step >
 		);
 	}
 
@@ -480,28 +537,9 @@ class GrammarGen extends React.Component {
 		return (
 			<Container>
 				<NotificationArea />
-				<Block width={'100%'}>
-					<div className="content">
-						<p>
-							<strong>GrammarGen</strong> is a simple tool allowing the creation of professional-looking language reference grammars from Markdown source. It supports all features of <a href="http://pandoc.org/MANUAL.html">Pandoc Markdown</a> as well as custom linguistics features, which are shown below.
-						</p>
-
-					</div>
-					<Tabs>
-						<Tab title="One">
-							<div className="content">
-								<p>This is an example feature. It does stuff, in the format:</p>
-								<blockquote>@ example,<br />more</blockquote>
-
-							</div>
-						</Tab>
-						<Tab title="Two">Goodbye</Tab>
-					</Tabs>
-					{JSON.stringify(this.state)}
-				</Block>
-
 				<Steps
 					steps={[
+						this.stepWelcome(),
 						this.stepIntroduction(),
 						this.stepMarkdownFiles(),
 						this.stepOrderFiles(),
