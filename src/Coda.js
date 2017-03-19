@@ -8,7 +8,7 @@ import StyledForm from './components/StyledForm';
 import Steps, { Step } from './components/Steps';
 import Tabs, { Tab } from './components/Tabs';
 
-const baseServerURL = 'http://coda.cadelwatson.com';
+const baseServerURL = 'http://coda.cadelwatson.tk';
 
 const metadataSchema = {
 	title: 'Metadata',
@@ -595,7 +595,7 @@ class Coda extends React.Component {
 
 						<p>The default LaTeX theme is a modified version
 						of <a href="http://www.latextemplates.com/template/the-legrand-orange-book">The
-						Legrand Orange Book</a> from
+						Legrand Orange Book</a> from&nbsp;
 						<a href="http://latextemplates.com">this site</a>.
 						It is used under the terms of
 						the <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a> license.
