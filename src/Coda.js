@@ -8,7 +8,7 @@ import StyledForm from './components/StyledForm';
 import Steps, { Step } from './components/Steps';
 import Tabs, { Tab } from './components/Tabs';
 
-const baseServerURL = 'http://coda.cadelwatson.com';
+const baseServerURL = 'http://coda.cadelwatson.tk';
 
 const metadataSchema = {
 	title: 'Metadata',
