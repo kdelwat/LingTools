@@ -595,7 +595,7 @@ class Coda extends React.Component {
 
 						<p>The default LaTeX theme is a modified version
 						of <a href="http://www.latextemplates.com/template/the-legrand-orange-book">The
-						Legrand Orange Book</a> from
+						Legrand Orange Book</a> from&nbsp;
 						<a href="http://latextemplates.com">this site</a>.
 						It is used under the terms of
 						the <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a> license.
